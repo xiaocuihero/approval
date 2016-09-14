@@ -175,7 +175,7 @@ function GetTableData(table1, table) {
 
 function GetTableUnitProjectBillData(unitpName, table) {
     var tableData = new Array();
-    for (var i = 0; i < table.rows.length - 1; i++) {
+    for (var i = 0; i < table.rows.length; i++) {
         var row = table.rows[i];
         var rowData = {};
         for (var j = 0; j < row.cells.length; j++) {

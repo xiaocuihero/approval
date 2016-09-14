@@ -224,22 +224,22 @@
                 <%if (index < 3)
                   {                      
                 %>
+                <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="c_build_complete">
+                    <%=bill.c_build_complete == 0 ? "" : bill.c_build_complete.ToString("0")%>
+                </td>
+                <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="c_setup_complete">
+                    <%=bill.c_setup_complete == 0 ? "" : bill.c_setup_complete.ToString("0") %>
+                </td>
                 <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="ccomplete">
                     <%=bill.ccomplete == 0 ? "" : bill.ccomplete.ToString("0")%>
                 </td>
-                <td align="center" width="7%" bgcolor="#EFEFEF">
-                    <%-- Need to decide --%>
+                <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="s_build_complete">
+                    <%=bill.s_build_complete == 0 ? "" : bill.s_build_complete.ToString("0")%>
                 </td>
-                <td align="center" width="7%" bgcolor="#EFEFEF">
-                    <%-- Need to decide --%>
+                <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="s_setup_complete">
+                    <%=bill.c_setup_complete == 0 ? "" : bill.s_setup_complete.ToString("0") %>
                 </td>
                 <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="scomplete">
-                    <%=bill.scomplete == 0 ? "" : bill.scomplete.ToString("0")%>
-                </td>
-                <td align="center" width="7%" bgcolor="#EFEFEF">
-                    <%-- Need to decide --%>
-                </td>
-                <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox">
                     <%=bill.scomplete == 0 ? "" : bill.scomplete.ToString("0")%>
                 </td>
                 <%
@@ -255,7 +255,7 @@
                 </td>
                 <%
 } // if (index < 3) else
-} //  if (index != 1 && index != 5 && index != 10)
+                        } //  if (index != 1 && index != 5 && index != 10)
                         else
                         {                                               
                 %>
@@ -272,22 +272,26 @@
                     <td width="14%" align="center" bgcolor="#EFEFEF" edittype="TextBox" name="pcontent">
                         <%=bill.pcontent%>
                     </td>
-                    <td width="8%" align="center" bgcolor="<%=re_totalpriceTemp == bill.totalprice ? nomalColor : errorColor %>"  edittype="TextBox" name="totalprice">
+                    <td width="8%" align="center" bgcolor="<%=re_totalpriceTemp == bill.totalprice ? nomalColor : errorColor %>"
+                        edittype="TextBox" name="totalprice">
                         <%=re_totalpriceTemp.ToString("0")%>
                     </td>
                     <td width="8%" align="center" bgcolor="#EFEFEF" name="totalcompletepercent">
                         <%=bill.totalcompletepercent == 0 ? "" : bill.totalcompletepercent.ToString("00.00%")%>
                     </td>
-                    <td width="10%" align="center" bgcolor="<%=re_ctotalcompleteTemp == bill.ctotalcomplete ? nomalColor : errorColor %>" edittype="TextBox" name="ctotalcomplete">
+                    <td width="10%" align="center" bgcolor="<%=re_ctotalcompleteTemp == bill.ctotalcomplete ? nomalColor : errorColor %>"
+                        edittype="TextBox" name="ctotalcomplete">
                         <%=re_ctotalcompleteTemp.ToString("0")%>
                     </td>
-                    <td width="10%" align="center" bgcolor="<%=re_stotalcompleteTemp == bill.stotalcomplete ? nomalColor : errorColor %>" edittype="TextBox" name="stotalcomplete">
+                    <td width="10%" align="center" bgcolor="<%=re_stotalcompleteTemp == bill.stotalcomplete ? nomalColor : errorColor %>"
+                        edittype="TextBox" name="stotalcomplete">
                         <%=re_stotalcompleteTemp.ToString("0")%>
                     </td>
                     <%if (index < 3)
                       {                      
                     %>
-                    <td align="center" width="7%" bgcolor="<%=re_ccompleteTemp == bill.ccomplete ? nomalColor : errorColor %>" edittype="TextBox" name="ccomplete">
+                    <td align="center" width="7%" bgcolor="<%=re_ccompleteTemp == bill.ccomplete ? nomalColor : errorColor %>"
+                        edittype="TextBox" name="ccomplete">
                         <%=re_ccompleteTemp.ToString("0")%>
                     </td>
                     <td align="center" width="7%" bgcolor="#EFEFEF">
@@ -297,7 +301,8 @@
                         <%-- Need to decide --%>
                     </td>
                     <%--<td align="center" width="7%" bgcolor="<%=test111 ? "#EFEFEF" : "#FFFFE0"%>" edittype="TextBox">--%>
-                    <td align="center" width="7%" bgcolor="<%=re_scompleteTemp == bill.scomplete ? nomalColor : errorColor %>" edittype="TextBox" name="scomplete">
+                    <td align="center" width="7%" bgcolor="<%=re_scompleteTemp == bill.scomplete ? nomalColor : errorColor %>"
+                        edittype="TextBox" name="scomplete">
                         <%=re_scompleteTemp.ToString("0")%>
                     </td>
                     <td align="center" width="7%" bgcolor="#EFEFEF">
@@ -311,15 +316,17 @@
                       else
                       {
                     %>
-                    <td align="center" width="21%" bgcolor="<%=re_ccompleteTemp == bill.ccomplete ? nomalColor : errorColor %>" edittype="TextBox" colspan="3" name="ccomplete">
+                    <td align="center" width="21%" bgcolor="<%=re_ccompleteTemp == bill.ccomplete ? nomalColor : errorColor %>"
+                        edittype="TextBox" colspan="3" name="ccomplete">
                         <%=re_ccompleteTemp.ToString("0")%>
                     </td>
-                    <td align="center" width="21%" bgcolor="<%=re_scompleteTemp == bill.scomplete ? nomalColor : errorColor %>" edittype="TextBox" colspan="3" name="scomplete">
+                    <td align="center" width="21%" bgcolor="<%=re_scompleteTemp == bill.scomplete ? nomalColor : errorColor %>"
+                        edittype="TextBox" colspan="3" name="scomplete">
                         <%=re_scompleteTemp.ToString("0")%>
                     </td>
                     <%
 } // if (index < 3) else                    
-} //  if (index != 1 && index != 5 && index != 10) else
+                        } //  if (index != 1 && index != 5 && index != 10) else
                         index++;
                     %>
                 </tr>

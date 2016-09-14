@@ -44,7 +44,7 @@ namespace ImportDemo
         /// <summary>
         /// 本期建筑工程完成
         /// </summary>
-        private Single _c_buile_complete;
+        private Single _c_build_complete;
         /// <summary>
         /// 本期安装工程
         /// </summary>
@@ -56,7 +56,7 @@ namespace ImportDemo
         /// <summary>
         /// 本期监理建筑工程完成
         /// </summary>
-        private Single _s_buile_complete;
+        private Single _s_build_complete;
         /// <summary>
         /// 本期监理安装工程
         /// </summary>
@@ -110,33 +110,44 @@ namespace ImportDemo
         {
             if (isExecl)
             {
-                NO = dr[0].C_String();
-
-                pcontent = dr[1].C_String();
-                totalprice = dr[2].C_Single();
-                totalcompletepercent = dr[3].C_SingleByPercent();
-                ctotalcomplete = dr[4].C_Single();
-                stotalcomplete = dr[5].C_Single();
-                c_buile_complete = dr[6].C_Single();
-                c_setup_complete = dr[7].C_Single();
-                ccomplete = dr[8].C_Single();
-                s_buile_complete = dr[9].C_Single();
-                s_setup_complete = dr[10].C_Single();
-                scomplete = dr[11].C_Single();
+                if (dr.ItemArray.Length > 11)
+                {
+                    NO = dr[0].C_String();
+                    pcontent = dr[1].C_String();
+                    totalprice = dr[2].C_Single();
+                    totalcompletepercent = dr[3].C_SingleByPercent();
+                    ctotalcomplete = dr[4].C_Single();
+                    stotalcomplete = dr[5].C_Single();
+                    c_build_complete = dr[6].C_Single();
+                    c_setup_complete = dr[7].C_Single();
+                    ccomplete = dr[8].C_Single() == 0 ? c_build_complete : dr[8].C_Single();
+                    s_build_complete = dr[9].C_Single();
+                    s_setup_complete = dr[10].C_Single();
+                    scomplete = dr[11].C_Single() == 0 ? s_build_complete : dr[11].C_Single();
+                }
+                else {
+                    NO = dr[0].C_String();
+                    pcontent = dr[1].C_String();
+                    totalprice = dr[2].C_Single();
+                    totalcompletepercent = dr[3].C_SingleByPercent();
+                    ctotalcomplete = dr[4].C_Single();
+                    stotalcomplete = dr[5].C_Single();
+                    ccomplete = dr[6].C_Single();
+                    scomplete = dr[7].C_Single();
+                }
             }
             else
             {
-                NO = dr["NO"].C_String();
-                project = dr["project"].C_String();
-                pcontent = dr["pcontent"].C_String();
-                totalprice = dr["totalprice"].C_Single();
-                totalcompletepercent = dr["totalcompletepercent"].C_SingleByPercent();
-                ctotalcomplete = dr["ctotalcomplete"].C_Single();
-                stotalcomplete = dr["stotalcomplete"].C_Single();
-                ccomplete = dr["ccomplete"].C_Single();
-                scomplete = dr["scomplete"].C_Single();
-                //completeclass = dr["completeclass"].C_int();
-                period = dr["period"].C_int();
+                //NO = dr["NO"].C_String();
+                //project = dr["project"].C_String();
+                //pcontent = dr["pcontent"].C_String();
+                //totalprice = dr["totalprice"].C_Single();
+                //totalcompletepercent = dr["totalcompletepercent"].C_SingleByPercent();
+                //ctotalcomplete = dr["ctotalcomplete"].C_Single();
+                //stotalcomplete = dr["stotalcomplete"].C_Single();
+                //ccomplete = dr["ccomplete"].C_Single();
+                //scomplete = dr["scomplete"].C_Single();
+                //period = dr["period"].C_int();
             }
         }
 
@@ -149,10 +160,10 @@ namespace ImportDemo
             totalcompletepercent = row["totalcompletepercent"].C_SingleByPercent();
             ctotalcomplete = row["ctotalcomplete"].C_Single();
             stotalcomplete = row["stotalcomplete"].C_Single();
-            c_buile_complete = row["c_build_complete"].C_Single();
+            c_build_complete = row["c_build_complete"].C_Single();
             c_setup_complete = row["c_setup_complete"].C_Single();
             ccomplete = row["ccomplete"].C_Single();
-            s_buile_complete = row["s_build_complete"].C_Single();
+            s_build_complete = row["s_build_complete"].C_Single();
             s_setup_complete = row["s_setup_complete"].C_Single();
             scomplete = row["scomplete"].C_Single();
             period = 17;
@@ -253,10 +264,10 @@ namespace ImportDemo
         /// <summary>
         /// 本期建筑工程完成
         /// </summary>
-        public Single c_buile_complete
+        public Single c_build_complete
         {
-            get { return _c_buile_complete; }
-            set { _c_buile_complete = value; }
+            get { return _c_build_complete; }
+            set { _c_build_complete = value; }
         }
         /// <summary>
         /// 本期安装工程完成
@@ -277,10 +288,10 @@ namespace ImportDemo
         /// <summary>
         /// 本期建筑工程监理审核
         /// </summary>
-        public Single s_buile_complete
+        public Single s_build_complete
         {
-            get { return _s_buile_complete; }
-            set { _s_buile_complete = value; }
+            get { return _s_build_complete; }
+            set { _s_build_complete = value; }
         }
         /// <summary>
         /// 本期安装工程监理审核

@@ -163,24 +163,24 @@
                 </td>
                 <%
 }
-               else
-               {%>
+                   else
+                   {%>
                 <td width="7.5%" name="ctotalprice" expression="cAmount*Price" bgcolor="#FFFFE0"
                     align="center">
                     <%=cctotalprice%>
                 </td>
                 <% 
 }
-               float sstotalprice = d.scompletequantity * d.price;
-               if (sstotalprice == d.stotalprice)
-               {
+                   float sstotalprice = d.scompletequantity * d.price;
+                   if (sstotalprice == d.stotalprice)
+                   {
                 %>
                 <td width="7.5%" name="stotalprice" expression="sAmount*Price" align="center">
                     <%=d.stotalprice%>
                 </td>
                 <%}
-                else
-                { %>
+               else
+               { %>
                 <td width="7.5%" name="stotalprice" expression="sAmount*Price" bgcolor="#FFFFE0"
                     align="center">
                     <%=sstotalprice%>
@@ -188,10 +188,10 @@
                 <%} %>
             </tr>
             <% 
-                m++;
-                ctotal = ctotal + cctotalprice;
-                stotal = stotal + sstotalprice;
-            }    
+m++;
+ctotal = ctotal + cctotalprice;
+stotal = stotal + sstotalprice;
+                }    
             %>
             <tr>
                 <td width="0.5%" align="center" bgcolor="#FFFFFF">
@@ -215,8 +215,8 @@
                 <%
                     } if (stotal == sstotal)
                   {%><td align="center" width="7.5%">
-            <%=stotal%>
-                </td>
+                      <%=stotal%>
+                  </td>
                 <%
                     }
                     else
@@ -234,8 +234,8 @@
     </div>
     </form>
 </body>
-<script language="javascript" src="GridEdit.js"></script>
-<script language="javascript">
+<script type="text/javascript" src="GridEdit.js"></script>
+<script type="text/javascript">
     var tabProduct = document.getElementById("tabProduct");
 
     // 设置表格可编辑

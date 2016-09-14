@@ -175,6 +175,7 @@ using System.Reflection;
         public void InsetData(string dname,DataRow dr)
         {
            
+
                 Detailbill dbill = new Detailbill();
                 dbill.NO = dr[1].ToString();
                 dbill.pname = dr[2].ToString();
@@ -218,7 +219,7 @@ using System.Reflection;
             foreach (DataRow row in dt.Rows)
             {
                 d += double.Parse(row[ColumnName].ToString());
-            }
+            }            
             return d;
         }
         protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)

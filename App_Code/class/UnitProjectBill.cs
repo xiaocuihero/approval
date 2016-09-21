@@ -28,47 +28,47 @@ namespace ImportDemo
         /// <summary>
         /// 总费用
         /// </summary>
-        private Single _totalprice;
+        private Double _totalprice;
         /// <summary>
         /// 累计完成百分比
         /// </summary>
-        private Single _totalcompletepercent;
+        private Double _totalcompletepercent;
         /// <summary>
         /// 至上期末累计完成
         /// </summary>
-        private Single _ctotalcomplete;
+        private Double _ctotalcomplete;
         /// <summary>
         /// 至上期末监理审核完成
         /// </summary>
-        private Single _stotalcomplete;
+        private Double _stotalcomplete;
         /// <summary>
         /// 本期建筑工程完成
         /// </summary>
-        private Single _c_build_complete;
+        private Double _c_build_complete;
         /// <summary>
         /// 本期安装工程
         /// </summary>
-        private Single _c_setup_complete;
+        private Double _c_setup_complete;
         /// <summary>
         /// 本期完成
         /// </summary>
-        private Single _ccomplete;
+        private Double _ccomplete;
         /// <summary>
         /// 本期监理建筑工程完成
         /// </summary>
-        private Single _s_build_complete;
+        private Double _s_build_complete;
         /// <summary>
         /// 本期监理安装工程
         /// </summary>
-        private Single _s_setup_complete;
+        private Double _s_setup_complete;
         /// <summary>
         /// 本期监理审核
         /// </summary>        
-        private Single _scomplete;
+        private Double _scomplete;
         /// <summary>
         /// 工程施工期
         /// </summary>
-        private Single _period;
+        private Double _period;
         #endregion
 
         #region 私有变量
@@ -88,11 +88,11 @@ namespace ImportDemo
         }
 
         //public UnitProjectBill(string NO, string project, string pcontent,
-        //    Single totalprice,
-        //    Single totalcompletepercent,
-        //    Single ctotalcomplete, Single stotalcomplete,            
-        //    Single ccomplete, Single scomplete,
-        //    Single period)
+        //    Double totalprice,
+        //    Double totalcompletepercent,
+        //    Double ctotalcomplete, Double stotalcomplete,            
+        //    Double ccomplete, Double scomplete,
+        //    Double period)
         //{
         //    _NO = NO;
         //    _project = project;
@@ -114,26 +114,26 @@ namespace ImportDemo
                 {
                     NO = dr[0].C_String();
                     pcontent = dr[1].C_String();
-                    totalprice = dr[2].C_Single();
-                    totalcompletepercent = dr[3].C_SingleByPercent();
-                    ctotalcomplete = dr[4].C_Single();
-                    stotalcomplete = dr[5].C_Single();
-                    c_build_complete = dr[6].C_Single();
-                    c_setup_complete = dr[7].C_Single();
-                    ccomplete = dr[8].C_Single() == 0 ? c_build_complete : dr[8].C_Single();
-                    s_build_complete = dr[9].C_Single();
-                    s_setup_complete = dr[10].C_Single();
-                    scomplete = dr[11].C_Single() == 0 ? s_build_complete : dr[11].C_Single();
+                    totalprice = dr[2].C_Double();
+                    totalcompletepercent = dr[3].C_DoubleByPercent();
+                    ctotalcomplete = dr[4].C_Double();
+                    stotalcomplete = dr[5].C_Double();
+                    c_build_complete = dr[6].C_Double();
+                    c_setup_complete = dr[7].C_Double();
+                    ccomplete = dr[8].C_Double() == 0 ? c_build_complete : dr[8].C_Double();
+                    s_build_complete = dr[9].C_Double();
+                    s_setup_complete = dr[10].C_Double();
+                    scomplete = dr[11].C_Double() == 0 ? s_build_complete : dr[11].C_Double();
                 }
                 else {
                     NO = dr[0].C_String();
                     pcontent = dr[1].C_String();
-                    totalprice = dr[2].C_Single();
-                    totalcompletepercent = dr[3].C_SingleByPercent();
-                    ctotalcomplete = dr[4].C_Single();
-                    stotalcomplete = dr[5].C_Single();
-                    ccomplete = dr[6].C_Single();
-                    scomplete = dr[7].C_Single();
+                    totalprice = dr[2].C_Double();
+                    totalcompletepercent = dr[3].C_DoubleByPercent();
+                    ctotalcomplete = dr[4].C_Double();
+                    stotalcomplete = dr[5].C_Double();
+                    ccomplete = dr[6].C_Double();
+                    scomplete = dr[7].C_Double();
                 }
             }
             else
@@ -141,12 +141,12 @@ namespace ImportDemo
                 //NO = dr["NO"].C_String();
                 //project = dr["project"].C_String();
                 //pcontent = dr["pcontent"].C_String();
-                //totalprice = dr["totalprice"].C_Single();
-                //totalcompletepercent = dr["totalcompletepercent"].C_SingleByPercent();
-                //ctotalcomplete = dr["ctotalcomplete"].C_Single();
-                //stotalcomplete = dr["stotalcomplete"].C_Single();
-                //ccomplete = dr["ccomplete"].C_Single();
-                //scomplete = dr["scomplete"].C_Single();
+                //totalprice = dr["totalprice"].C_Double();
+                //totalcompletepercent = dr["totalcompletepercent"].C_DoubleByPercent();
+                //ctotalcomplete = dr["ctotalcomplete"].C_Double();
+                //stotalcomplete = dr["stotalcomplete"].C_Double();
+                //ccomplete = dr["ccomplete"].C_Double();
+                //scomplete = dr["scomplete"].C_Double();
                 //period = dr["period"].C_int();
             }
         }
@@ -156,16 +156,16 @@ namespace ImportDemo
             project = row["unitName"].C_StringTrim();
             NO = row["NO"].C_StringTrim();
             pcontent = row["pcontent"].C_StringTrim();
-            totalprice = row["totalprice"].C_Single();
-            totalcompletepercent = row["totalcompletepercent"].C_SingleByPercent();
-            ctotalcomplete = row["ctotalcomplete"].C_Single();
-            stotalcomplete = row["stotalcomplete"].C_Single();
-            c_build_complete = row["c_build_complete"].C_Single();
-            c_setup_complete = row["c_setup_complete"].C_Single();
-            ccomplete = row["ccomplete"].C_Single();
-            s_build_complete = row["s_build_complete"].C_Single();
-            s_setup_complete = row["s_setup_complete"].C_Single();
-            scomplete = row["scomplete"].C_Single();
+            totalprice = row["totalprice"].C_Double();
+            totalcompletepercent = row["totalcompletepercent"].C_DoubleByPercent();
+            ctotalcomplete = row["ctotalcomplete"].C_Double();
+            stotalcomplete = row["stotalcomplete"].C_Double();
+            c_build_complete = row["c_build_complete"].C_Double();
+            c_setup_complete = row["c_setup_complete"].C_Double();
+            ccomplete = row["ccomplete"].C_Double();
+            s_build_complete = row["s_build_complete"].C_Double();
+            s_setup_complete = row["s_setup_complete"].C_Double();
+            scomplete = row["scomplete"].C_Double();
             period = 17;
         }
 
@@ -183,7 +183,7 @@ namespace ImportDemo
                 for (int i = excelBeginIndex; i < rowCount - excelBeginIndex + 1; i++)
                 {
                     UnitProjectBill upb = new UnitProjectBill(dt.Rows[i], true);
-                    string total = "总报价";
+                    string total = "总报价(大写)：";
                     if (Regex.IsMatch(upb.NO, total)) 
                     {
                         rowEndIndex = i;
@@ -232,7 +232,7 @@ namespace ImportDemo
         /// <summary>
         /// 总费用
         /// </summary>
-        public Single totalprice
+        public Double totalprice
         {
             get { return _totalprice; }
             set { _totalprice = value; }
@@ -240,7 +240,7 @@ namespace ImportDemo
         /// <summary>
         /// 累计完成百分比
         /// </summary>
-        public Single totalcompletepercent
+        public Double totalcompletepercent
         {
             get { return _totalcompletepercent; }
             set { _totalcompletepercent = value; }
@@ -248,7 +248,7 @@ namespace ImportDemo
         /// <summary>
         /// 至上期末累计完成
         /// </summary>
-        public Single ctotalcomplete
+        public Double ctotalcomplete
         {
             get { return _ctotalcomplete; }
             set { _ctotalcomplete = value; }
@@ -256,7 +256,7 @@ namespace ImportDemo
         /// <summary>
         /// 至上期末监理审核完成
         /// </summary>
-        public Single stotalcomplete
+        public Double stotalcomplete
         {
             get { return _stotalcomplete; }
             set { _stotalcomplete = value; }
@@ -264,7 +264,7 @@ namespace ImportDemo
         /// <summary>
         /// 本期建筑工程完成
         /// </summary>
-        public Single c_build_complete
+        public Double c_build_complete
         {
             get { return _c_build_complete; }
             set { _c_build_complete = value; }
@@ -272,7 +272,7 @@ namespace ImportDemo
         /// <summary>
         /// 本期安装工程完成
         /// </summary>
-        public Single c_setup_complete
+        public Double c_setup_complete
         {
             get { return _c_setup_complete; }
             set { _c_setup_complete = value; }
@@ -280,7 +280,7 @@ namespace ImportDemo
         /// <summary>
         /// 本期完成
         /// </summary>
-        public Single ccomplete
+        public Double ccomplete
         {
             get { return _ccomplete; }
             set { _ccomplete = value; }
@@ -288,7 +288,7 @@ namespace ImportDemo
         /// <summary>
         /// 本期建筑工程监理审核
         /// </summary>
-        public Single s_build_complete
+        public Double s_build_complete
         {
             get { return _s_build_complete; }
             set { _s_build_complete = value; }
@@ -296,7 +296,7 @@ namespace ImportDemo
         /// <summary>
         /// 本期安装工程监理审核
         /// </summary>
-        public Single s_setup_complete
+        public Double s_setup_complete
         {
             get { return _s_setup_complete; }
             set { _s_setup_complete = value; }
@@ -304,7 +304,7 @@ namespace ImportDemo
         /// <summary>
         /// 本期监理审核
         /// </summary>
-        public Single scomplete
+        public Double scomplete
         {
             get { return _scomplete; }
             set { _scomplete = value; }
@@ -313,7 +313,7 @@ namespace ImportDemo
         /// <summary>
         /// 工程施工期
         /// </summary>
-        public Single period
+        public Double period
         {
             get { return _period; }
             set { _period = value; }

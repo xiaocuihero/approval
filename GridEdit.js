@@ -102,10 +102,9 @@ function CancelEditCell(element, value, text) {
     element.setAttribute("EditState", "false");
 
     //检查是否有公式计算
-    CheckExpression(element.parentNode);
+    CheckExpression(element.parentNode); 
 }
-
-//清空指定对象的所有字节点
+////清空指定对象的所有字节点
 function ClearChild(element) {
     element.innerHTML = "";
 }
@@ -199,8 +198,7 @@ function GetTableUnitProjectBillData(unitpName, table) {
                 
             }
         });
-    }
-    
+    }    
 }
 
 //提取指定行的数据，JSON格式
@@ -305,7 +303,6 @@ function Expression(row, expn) {
     var a = expn.split("*");
     var result = parseFloat(a[0]) * 1000 * parseFloat(a[1]) * 1000 / 1000000;
     return result.toFixed(2);
-
 }
 
 function formatNumber(num, pattern) {

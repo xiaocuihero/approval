@@ -138,57 +138,72 @@
                 int index = 0;
                 if (dataList.Count == 11)
                 {
-                    string nomalColor = "#EFEFEF";
+                    string nomalColor = "#FFFFFF";
                     string errorColor = "#FFFFE0";
-                    Single re_totalprice2 = dataList[2].totalprice + dataList[3].totalprice;
-                    Single re_totalprice4 = dataList[6].totalprice + dataList[7].totalprice + dataList[8].totalprice;
-                    Single re_totalprice6 = dataList[0].totalprice + dataList[1].totalprice + dataList[4].totalprice + dataList[5].totalprice + dataList[9].totalprice;
-                    Single re_ctotalcomplete2 = dataList[2].ctotalcomplete + dataList[3].ctotalcomplete;
-                    Single re_ctotalcomplete4 = dataList[6].ctotalcomplete + dataList[7].ctotalcomplete + dataList[8].ctotalcomplete;
-                    Single re_ctotalcomplete6 = dataList[0].ctotalcomplete + dataList[1].ctotalcomplete + dataList[4].ctotalcomplete + dataList[5].ctotalcomplete + dataList[9].ctotalcomplete;
-                    Single re_stotalcomplete2 = dataList[2].stotalcomplete + dataList[3].stotalcomplete;
-                    Single re_stotalcomplete4 = dataList[6].stotalcomplete + dataList[7].stotalcomplete + dataList[8].stotalcomplete;
-                    Single re_stotalcomplete6 = dataList[0].stotalcomplete + dataList[1].stotalcomplete + dataList[4].stotalcomplete + dataList[5].stotalcomplete + dataList[9].stotalcomplete;
-                    Single re_ccomplete2 = dataList[2].ccomplete + dataList[3].ccomplete;
-                    Single re_ccomplete4 = dataList[6].ccomplete + dataList[7].ccomplete + dataList[8].ccomplete;
-                    Single re_ccomplete6 = dataList[0].ccomplete + dataList[1].ccomplete + dataList[4].ccomplete + dataList[5].ccomplete + dataList[9].ccomplete;
-                    Single re_scomplete2 = dataList[2].scomplete + dataList[3].scomplete;
-                    Single re_scomplete4 = dataList[6].scomplete + dataList[7].scomplete + dataList[8].scomplete;
-                    Single re_scomplete6 = dataList[0].scomplete + dataList[1].scomplete + dataList[4].scomplete + dataList[5].scomplete + dataList[9].scomplete;
+                    //Double re_totalprice2 = dataList[2].totalprice + dataList[3].totalprice;
+                    //Double re_totalprice4 = dataList[6].totalprice + dataList[7].totalprice + dataList[8].totalprice;
+                    //Double re_totalprice6 = dataList[0].totalprice + dataList[1].totalprice + dataList[4].totalprice + dataList[5].totalprice + dataList[9].totalprice;
+                    //Double re_ctotalcomplete2 = dataList[2].ctotalcomplete + dataList[3].ctotalcomplete;
+                    //Double re_ctotalcomplete4 = dataList[6].ctotalcomplete + dataList[7].ctotalcomplete + dataList[8].ctotalcomplete;
+                    //Double re_ctotalcomplete6 = dataList[0].ctotalcomplete + dataList[1].ctotalcomplete + dataList[4].ctotalcomplete + dataList[5].ctotalcomplete + dataList[9].ctotalcomplete;
+                    //Double re_stotalcomplete2 = dataList[2].stotalcomplete + dataList[3].stotalcomplete;
+                    //Double re_stotalcomplete4 = dataList[6].stotalcomplete + dataList[7].stotalcomplete + dataList[8].stotalcomplete;
+                    //Double re_stotalcomplete6 = dataList[0].stotalcomplete + dataList[1].stotalcomplete + dataList[4].stotalcomplete + dataList[5].stotalcomplete + dataList[9].stotalcomplete;
+                    
+                    Double re_ccomplete2 = dataList[2].ccomplete + dataList[3].ccomplete;
+                    Double re_ccomplete4 = dataList[6].ccomplete + dataList[7].ccomplete + dataList[8].ccomplete;
+                    Double re_ccomplete6 = dataList[0].ccomplete + dataList[1].ccomplete + dataList[4].ccomplete + re_ccomplete4 + dataList[9].ccomplete;
+                    Double re_scomplete2 = dataList[2].scomplete + dataList[3].scomplete;
+                    Double re_scomplete4 = dataList[6].scomplete + dataList[7].scomplete + dataList[8].scomplete;
+                    Double re_scomplete6 = dataList[0].scomplete + dataList[1].scomplete + dataList[4].scomplete + re_scomplete4 + dataList[9].scomplete;
+                    //Double re_ccomplete2 = dataList[2].ccomplete + dataList[3].ccomplete;
+                    //Double re_ccomplete4 = dataList[6].ccomplete + dataList[7].ccomplete + dataList[8].ccomplete;
+                    //Double re_ccomplete6 = dataList[0].ccomplete + dataList[1].ccomplete + dataList[4].ccomplete + dataList[5].ccomplete + dataList[9].ccomplete;
+                    //Double re_scomplete2 = dataList[2].scomplete + dataList[3].scomplete;
+                    //Double re_scomplete4 = dataList[6].scomplete + dataList[7].scomplete + dataList[8].scomplete;
+                    //Double re_scomplete6 = dataList[0].scomplete + dataList[1].scomplete + dataList[4].scomplete + dataList[5].scomplete + dataList[9].scomplete;
                     foreach (ImportDemo.UnitProjectBill bill in dataList)
                     {
-                        Single re_totalpriceTemp = 0;
-                        Single re_ctotalcompleteTemp = 0;
-                        Single re_stotalcompleteTemp = 0;
-                        Single re_ccompleteTemp = 0;
-                        Single re_scompleteTemp = 0;
+                        //Double re_totalpriceTemp = 0;
+                        //Double re_ctotalcompleteTemp = 0;
+                        //Double re_stotalcompleteTemp = 0;
+                        Double re_ccompleteTemp = 0;
+                        Double re_scompleteTemp = 0;
+                        //bool cccurect = true;
+                        //bool sccurect = true;                     
                         switch (index)
                         {
                             case 1:
                                 {
-                                    re_totalpriceTemp = re_totalprice2;
-                                    re_ctotalcompleteTemp = re_ctotalcomplete2;
-                                    re_stotalcompleteTemp = re_stotalcomplete2;
+                                    //re_totalpriceTemp = re_totalprice2;
+                                    //re_ctotalcompleteTemp = re_ctotalcomplete2;
+                                    //re_stotalcompleteTemp = re_stotalcomplete2;
                                     re_ccompleteTemp = re_ccomplete2;
                                     re_scompleteTemp = re_scomplete2;
+                                    //cccurect = re_ccomplete2 == bill.ccomplete;
+                                    //sccurect = re_scomplete2 == bill.scomplete;
                                     break;
                                 }
                             case 5:
                                 {
-                                    re_totalpriceTemp = re_totalprice4;
-                                    re_ctotalcompleteTemp = re_ctotalcomplete4;
-                                    re_stotalcompleteTemp = re_stotalcomplete4;
+                                    //re_totalpriceTemp = re_totalprice4;
+                                    //re_ctotalcompleteTemp = re_ctotalcomplete4;
+                                    //re_stotalcompleteTemp = re_stotalcomplete4;
                                     re_ccompleteTemp = re_ccomplete4;
                                     re_scompleteTemp = re_scomplete4;
+                                    //cccurect = re_ccomplete4 == bill.ccomplete;
+                                    //sccurect = re_scomplete4 == bill.scomplete;
                                     break;
                                 }
                             case 10:
                                 {
-                                    re_totalpriceTemp = re_totalprice6;
-                                    re_ctotalcompleteTemp = re_ctotalcomplete6;
-                                    re_stotalcompleteTemp = re_stotalcomplete6;
+                                    //re_totalpriceTemp = re_totalprice6;
+                                    //re_ctotalcompleteTemp = re_ctotalcomplete6;
+                                    //re_stotalcompleteTemp = re_stotalcomplete6;
                                     re_ccompleteTemp = re_ccomplete6;
                                     re_scompleteTemp = re_scomplete6;
+                                    //cccurect = re_ccomplete6 == bill.ccomplete;
+                                    //sccurect = re_scomplete6 == bill.scomplete;
                                     break;
                                 }
                             default: { break; }
@@ -197,135 +212,124 @@
                         {                        
             %>
             <tr>
-                <td width="1%" align="center" bgcolor="#EFEFEF">
+                <td width="1%" align="center" >
                     <input type="checkbox" name="checkbox" value="checkbox" />
                 </td>
-                <td width="3%" align="center" bgcolor="#EFEFEF" name="num">
+                <td width="3%" align="center"  name="num">
                     <%=index%>
                 </td>
-                <td width="4%" align="center" bgcolor="#EFEFEF" edittype="TextBox" name="NO">
+                <td width="4%" align="center"  name="NO">
                     <%=bill.NO%>
                 </td>
-                <td width="14%" align="center" bgcolor="#EFEFEF" edittype="TextBox" name="pcontent">
+                <td width="14%" align="center"  name="pcontent">
                     <%=bill.pcontent%>
                 </td>
-                <td width="8%" align="center" bgcolor="#EFEFEF" name="totalprice">
-                    <%=bill.totalprice == 0 ? "" : bill.totalprice.ToString("0")%>
+                <td width="8%" align="center"  name="totalprice">
+                    <%=bill.totalprice == 0 ? "" : bill.totalprice.ToString()%>
                 </td>
-                <td width="8%" align="center" bgcolor="#EFEFEF" name="totalcompletepercent">
+                <td width="8%" align="center"  name="totalcompletepercent">
                     <%=bill.totalcompletepercent == 0 ? "" : bill.totalcompletepercent.ToString("00.00%")%>
                 </td>
-                <td width="10%" align="center" bgcolor="#EFEFEF" edittype="TextBox" name="ctotalcomplete">
-                    <%=bill.ctotalcomplete == 0 ? "" : bill.ctotalcomplete.ToString("0")%>
+                <td width="10%" align="center" name="ctotalcomplete">
+                    <%=bill.ctotalcomplete == 0 ? "" : bill.ctotalcomplete.ToString("0.00")%>
                 </td>
-                <td width="10%" align="center" bgcolor="#EFEFEF" edittype="TextBox" name="stotalcomplete">
-                    <%=bill.stotalcomplete == 0 ? "" : bill.stotalcomplete.ToString("0")%>
+                <td width="10%" align="center" name="stotalcomplete">
+                    <%=bill.stotalcomplete == 0 ? "" : bill.stotalcomplete.ToString()%>
                 </td>
-                <%if (index < 3)
+                <%if (index < 4)
                   {                      
                 %>
-                <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="c_build_complete">
-                    <%=bill.c_build_complete == 0 ? "" : bill.c_build_complete.ToString("0")%>
+                <td align="center" width="7%" name="c_build_complete">
+                    <%=bill.c_build_complete == 0 ? "" : bill.c_build_complete.ToString()%>
                 </td>
-                <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="c_setup_complete">
-                    <%=bill.c_setup_complete == 0 ? "" : bill.c_setup_complete.ToString("0") %>
+                <td align="center" width="7%" name="c_setup_complete">
+                    <%=bill.c_setup_complete == 0 ? "" : bill.c_setup_complete.ToString() %>
                 </td>
-                <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="ccomplete">
-                    <%=bill.ccomplete == 0 ? "" : bill.ccomplete.ToString("0")%>
+                <td align="center" width="7%" name="ccomplete">
+                    <%=(bill.c_build_complete + bill.c_setup_complete).ToString()%>
                 </td>
-                <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="s_build_complete">
-                    <%=bill.s_build_complete == 0 ? "" : bill.s_build_complete.ToString("0")%>
+                <td align="center" width="7%" name="s_build_complete">
+                    <%=bill.s_build_complete == 0 ? "" : bill.s_build_complete.ToString()%>
                 </td>
-                <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="s_setup_complete">
-                    <%=bill.c_setup_complete == 0 ? "" : bill.s_setup_complete.ToString("0") %>
+                <td align="center" width="7%" name="s_setup_complete">
+                    <%=bill.c_setup_complete == 0 ? "" : bill.s_setup_complete.ToString()%>
                 </td>
-                <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" name="scomplete">
-                    <%=bill.scomplete == 0 ? "" : bill.scomplete.ToString("0")%>
+                <td align="center" width="7%" name="scomplete">
+                    <%=(bill.s_build_complete + bill.s_setup_complete).ToString()%>
                 </td>
                 <%
-                    } // if (index < 3)
+                    } // if (index < 4)
                   else
                   {
                 %>
-                <td align="center" width="21%" bgcolor="#EFEFEF" edittype="TextBox" colspan="3" name="ccomplete">
-                    <%=bill.ccomplete == 0 ? "" : bill.ccomplete.ToString("0")%>
-                </td>
-                <td align="center" width="21%" bgcolor="#EFEFEF" edittype="TextBox" colspan="3" name="scomplete">
-                    <%=bill.scomplete == 0 ? "" : bill.scomplete.ToString("0")%>
-                </td>
+                <td align="center" width="21%"  edittype="<%=index==3 || index == 9 || index == 8 ? "null" : "TextBox" %>" colspan="3" name="ccomplete"><%=bill.ccomplete == 0 ? "" : bill.ccomplete.ToString()%></td>
+                <td align="center" width="21%"  edittype="<%=index==3 || index == 9 || index == 8 ? "null" : "TextBox" %>" colspan="3" name="scomplete"><%=bill.scomplete == 0 ? "" : bill.scomplete.ToString()%></td>
                 <%
-} // if (index < 3) else
+} // if (index < 4) else
                         } //  if (index != 1 && index != 5 && index != 10)
                         else
                         {                                               
                 %>
                 <tr>
-                    <td width="1%" align="center" bgcolor="#EFEFEF">
+                    <td width="1%" align="center" >
                         <input type="checkbox" name="checkbox" value="checkbox" />
                     </td>
-                    <td width="3%" align="center" bgcolor="#EFEFEF" name="num">
+                    <td width="3%" align="center" name="num">
                         <%=index%>
                     </td>
-                    <td width="4%" align="center" bgcolor="#EFEFEF" edittype="TextBox" name="NO">
+                    <td width="4%" align="center" name="NO">
                         <%=bill.NO%>
                     </td>
-                    <td width="14%" align="center" bgcolor="#EFEFEF" edittype="TextBox" name="pcontent">
+                    <td width="14%" align="center" name="pcontent">
                         <%=bill.pcontent%>
                     </td>
-                    <td width="8%" align="center" bgcolor="<%=re_totalpriceTemp == bill.totalprice ? nomalColor : errorColor %>"
-                        edittype="TextBox" name="totalprice">
-                        <%=re_totalpriceTemp.ToString("0")%>
+                    <td width="8%" align="center" bgcolor="<%=nomalColor%>"
+                        name="totalprice">
+                        <%=bill.totalprice.ToString()%>
                     </td>
-                    <td width="8%" align="center" bgcolor="#EFEFEF" name="totalcompletepercent">
+                    <td width="8%" align="center" name="totalcompletepercent">
                         <%=bill.totalcompletepercent == 0 ? "" : bill.totalcompletepercent.ToString("00.00%")%>
                     </td>
-                    <td width="10%" align="center" bgcolor="<%=re_ctotalcompleteTemp == bill.ctotalcomplete ? nomalColor : errorColor %>"
-                        edittype="TextBox" name="ctotalcomplete">
-                        <%=re_ctotalcompleteTemp.ToString("0")%>
+                    <td width="10%" align="center" bgcolor="<%=nomalColor%>"
+                        name="ctotalcomplete">
+                        <%=bill.ctotalcomplete.ToString("0.00")%>
                     </td>
-                    <td width="10%" align="center" bgcolor="<%=re_stotalcompleteTemp == bill.stotalcomplete ? nomalColor : errorColor %>"
-                        edittype="TextBox" name="stotalcomplete">
-                        <%=re_stotalcompleteTemp.ToString("0")%>
-                    </td>
-                    <%if (index < 3)
+                    <td width="10%" align="center" bgcolor="<%=nomalColor%>"
+                        name="stotalcomplete"><%=bill.stotalcomplete.ToString()%></td>
+                    <%if (index < 4)
                       {                      
                     %>
                     <td align="center" width="7%" bgcolor="<%=re_ccompleteTemp == bill.ccomplete ? nomalColor : errorColor %>"
-                        edittype="TextBox" name="ccomplete">
-                        <%=re_ccompleteTemp.ToString("0")%>
+                        name="ccomplete" editType="null"><%=re_ccompleteTemp.ToString().Trim()%></td>
+                    <td align="center" width="7%" editType="null">
+                        
                     </td>
-                    <td align="center" width="7%" bgcolor="#EFEFEF">
-                        <%-- Need to decide --%>
-                    </td>
-                    <td align="center" width="7%" bgcolor="#EFEFEF" expression="ccomplete">
-                        <%-- Need to decide --%>
-                    </td>
-                    <%--<td align="center" width="7%" bgcolor="<%=test111 ? "#EFEFEF" : "#FFFFE0"%>" edittype="TextBox">--%>
+                    <td align="center" width="7%" editType="null">
+                                          
+                    </td>                    
                     <td align="center" width="7%" bgcolor="<%=re_scompleteTemp == bill.scomplete ? nomalColor : errorColor %>"
-                        edittype="TextBox" name="scomplete">
-                        <%=re_scompleteTemp.ToString("0")%>
+                        name="scomplete" editType="null"><%=re_scompleteTemp.ToString()%></td>
+                    <td align="center" width="7%" editType="null">
+                        
                     </td>
-                    <td align="center" width="7%" bgcolor="#EFEFEF">
-                        <%-- Need to decide --%>
-                    </td>
-                    <td align="center" width="7%" bgcolor="#EFEFEF" edittype="TextBox" expression="scomplete">
-                        <%=bill.scomplete == 0 ? "" : bill.scomplete.ToString("0")%>
+                    <td align="center" width="7%" editType="null">
+                        <%=bill.scomplete == 0 ? "" : bill.scomplete.ToString()%>
                     </td>
                     <%
-                        } // if (index < 3)
+                        } // if (index < 4)
                       else
                       {
                     %>
                     <td align="center" width="21%" bgcolor="<%=re_ccompleteTemp == bill.ccomplete ? nomalColor : errorColor %>"
-                        edittype="TextBox" colspan="3" name="ccomplete">
-                        <%=re_ccompleteTemp.ToString("0")%>
+                        colspan="3" name="ccomplete">
+                        <%=re_ccompleteTemp.ToString()%>
                     </td>
                     <td align="center" width="21%" bgcolor="<%=re_scompleteTemp == bill.scomplete ? nomalColor : errorColor %>"
-                        edittype="TextBox" colspan="3" name="scomplete">
-                        <%=re_scompleteTemp.ToString("0")%>
+                        colspan="3" name="scomplete">
+                        <%=re_scompleteTemp.ToString()%>
                     </td>
                     <%
-} // if (index < 3) else                    
+} // if (index < 4) else                    
                         } //  if (index != 1 && index != 5 && index != 10) else
                         index++;
                     %>
@@ -337,26 +341,35 @@
         </table>
         <table width="100%" border="1" cellpadding="0" cellspacing="0" frame="void">
             <tr>
-                <td align="center" width="22%" bgcolor="#EFEFEF">
+                <td align="center" width="22%" >
                     总报价（大写）：
                 </td>
-                <td align="center" width="57%" bgcolor="#EFEFEF">
-                    <%=dataList.Count > 0 ? ConvertToChinese(dataList[dataList.Count - 1].ccomplete) : ""%>
-                    <%--<%=dataList.Count>0 ? ConvertToChinese(dataList[dataList.Count - 1].totalprice) : ""%>--%>
+                <td align="center" width="57%" id="ChineseNumber">
+                    <%=dataList.Count > 0 ? ConvertToChinese(dataList[dataList.Count - 1].ccomplete) : ""%>                    
                 </td>
-                <td align="center" width="21%" bgcolor="#EFEFEF">
+                <td align="center" width="21%" >
                     元整
                 </td>
             </tr>
         </table>
         <br />
         <br />
-        <input type="button" name="Submit" value="新增" onclick="AddRow(document.getElementById('tabProduct'),1)" />
-        <input type="button" name="Submit2" value="删除" onclick="DeleteRow(document.getElementById('tabProduct'),1)" />
+        <p id="unitProjectBillCCTax5" style="display:none;"><%=dataList.Count == 11 ? dataList[8].ccomplete / (dataList[0].ccomplete + dataList[1].ccomplete + dataList[4].ccomplete + dataList[6].ccomplete + dataList[7].ccomplete): 1%></p>
+        <p id="unitProjectBillCCTaxWU" style="display:none;"><%=dataList.Count == 11 ? dataList[9].ccomplete / (dataList[0].ccomplete + dataList[1].ccomplete + dataList[4].ccomplete + dataList[6].ccomplete + dataList[7].ccomplete + dataList[8].ccomplete) : 1%></p>
+        <p id="unitProjectBillSCTax5" style="display:none;"><%=dataList.Count == 11 ? dataList[8].scomplete / (dataList[0].scomplete + dataList[1].scomplete + dataList[4].scomplete + dataList[6].scomplete + dataList[7].scomplete) : 1%></p>
+        <p id="unitProjectBillSCTaxWU" style="display:none;"><%=dataList.Count == 11 ? dataList[9].scomplete / (dataList[0].scomplete + dataList[1].scomplete + dataList[4].scomplete + dataList[6].scomplete + dataList[7].scomplete + dataList[8].scomplete) : 1%></p>
+        <%--<asp:HiddenField ID="ConverToChineseParam" runat="server" Value="1" />
+        <asp:HiddenField ID="ConverToChineseReturn" runat="server" Value="1" />
+        <div style="display:none;">      
+            <asp:Button ID="ConverToChineseBtn" Width="0" usesubmitbehavior="false" runat="server" Text="" OnClick="ConverToChineseFuncBridge" />       
+        </div> --%>
     </div>
     </form>
 </body>
-<script type="text/javascript" src="GridEdit.js"></script>
+<script type="text/javascript">
+    
+</script>
+<script type="text/javascript" src="GridEditUnitProject.js"></script>
 <script type="text/javascript">
     var tabProduct = document.getElementById("tabProduct");
     EditTables(tabProduct);

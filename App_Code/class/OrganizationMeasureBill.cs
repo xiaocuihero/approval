@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data;
+using System.Collections.Specialized;
 
 /// <summary>
 /// Summary description for OrganizationMeasureBill
@@ -12,6 +14,10 @@ namespace ImportDemo
     public class OrganizationMeasureBill
     {
         #region 私有变量
+        /// <summary>
+        /// 项目名称
+        /// </summary>
+        private string _organizationName;
         /// <summary>
         /// 序号
         /// </summary>
@@ -27,23 +33,23 @@ namespace ImportDemo
         /// <summary>
         /// 数量
         /// </summary>
-        private Single _quantity;
+        private Double _quantity;
         /// <summary>
         /// 金额
         /// </summary>
-        private Single _price;
+        private Double _price;
         /// <summary>
         /// 至上期累计支付（元）
         /// </summary>
-        private Single _totalcompleteprice;
+        private Double _totalcompleteprice;
         /// <summary>
         /// 本期上报金额
         /// </summary>
-        private Single _ccompleteprice;
+        private Double _ccompleteprice;
         /// <summary>
         /// 监理审核
         /// </summary>
-        private Single _scompleteprice;
+        private Double _scompleteprice;
         /// <summary>
         /// 备注
         /// </summary>
@@ -60,11 +66,76 @@ namespace ImportDemo
 
         }
 
+        public OrganizationMeasureBill(DataRow dr)
+        {
+            if (dr.ItemArray.Length > 8)
+            {
+                NO = dr[0].C_String();
+                contentname = dr[1].C_String();
+                unite = dr[2].C_String();
+                quantity = dr[3].C_Double();
+                price = dr[4].C_Double();
+                totalcompleteprice = dr[5].C_Double();
+                ccompleteprice = dr[6].C_Double();
+                scompleteprice = dr[7].C_Double();
+                bak = dr[8].C_String();
+            }
+            else {
+                NO = dr[0].C_String();
+                price = dr[1].C_Double();
+                totalcompleteprice = dr[2].C_Double();
+                ccompleteprice = dr[3].C_Double();
+                scompleteprice = dr[4].C_Double();
+            }
+        }
 
+        public OrganizationMeasureBill(NameValueCollection row)
+        {
+            organizationName = row["organizationName"].C_StringTrim();
+            NO = row["NO"].C_StringTrim();
+            contentname = row["contentname"].C_StringTrim();
+            unite = row["unite"].C_StringTrim();
+            quantity = row["quantity"].C_Double();
+            price = row["price"].C_Double();
+            totalcompleteprice = row["totalcompleteprice"].C_Double();
+            ccompleteprice = row["ccompleteprice"].C_Double();
+            scompleteprice = row["scompleteprice"].C_Double();
+            bak = row["bak"].C_StringTrim();
+            period = 17;
+        }
+        #endregion
 
+        #region 公共方法
+        public static List<OrganizationMeasureBill> GetList(DataTable dt) 
+        {
+            List<OrganizationMeasureBill> dataList = new List<OrganizationMeasureBill>();
+            int rowCount = dt.Rows.Count;
+            const int rowBeginIndex = 2;
+            int rowEndIndex = int.MaxValue;
+            for (int i = rowBeginIndex; i < rowCount - rowBeginIndex; i++) 
+            {
+                if (i > rowEndIndex) break;
+                OrganizationMeasureBill bill = new OrganizationMeasureBill(dt.Rows[i]);
+                string total = "合计";
+                if (System.Text.RegularExpressions.Regex.IsMatch(bill.NO, total))
+                {
+                    rowEndIndex = i + 1;
+                }
+                dataList.Add(bill);
+            }
+            return dataList;
+        }
         #endregion
 
         #region 公共变量
+        /// <summary>
+        /// 组织名称
+        /// </summary>
+        public string organizationName
+        {
+            get { return _organizationName; }
+            set { _organizationName = value; }
+        }
         /// <summary>
         /// 序号
         /// </summary>
@@ -92,7 +163,7 @@ namespace ImportDemo
         /// <summary>
         /// 数量
         /// </summary>
-        public Single quantity
+        public Double quantity
         {
             get { return _quantity; }
             set { _quantity = value; }
@@ -100,7 +171,7 @@ namespace ImportDemo
         /// <summary>
         /// 金额
         /// </summary>
-        public Single price
+        public Double price
         {
             get { return _price; }
             set { _price = value; }
@@ -108,7 +179,7 @@ namespace ImportDemo
         /// <summary>
         /// 至上期累计支付（元）
         /// </summary>
-        public Single totalcompleteprice
+        public Double totalcompleteprice
         {
             get { return _totalcompleteprice; }
             set { _totalcompleteprice = value; }
@@ -116,7 +187,7 @@ namespace ImportDemo
         /// <summary>
         /// 本期上报金额
         /// </summary>
-        public Single ccompleteprice
+        public Double ccompleteprice
         {
             get { return _ccompleteprice; }
             set { _ccompleteprice = value; }
@@ -124,7 +195,7 @@ namespace ImportDemo
         /// <summary>
         /// 监理审核
         /// </summary>
-        public Single scompleteprice
+        public Double scompleteprice
         {
             get { return _scompleteprice; }
             set { _scompleteprice = value; }

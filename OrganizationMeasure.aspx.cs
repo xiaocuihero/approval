@@ -4,19 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
-using System.Data.OleDb;
 using ImportDemo;
-using Microsoft.Office.Interop.Excel;
-using System.Reflection;
-using System.Text.RegularExpressions;
+using System.Data.OleDb;
+using System.Data;
 
-public partial class unitProjectBill : System.Web.UI.Page
+public partial class OrganizationMeasure : System.Web.UI.Page
 {
     private string excelConnectionString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["ExcelConnectionString"].ConnectionString;
-
-    public List<UnitProjectBill> dataList = new List<UnitProjectBill>();
-    public string unitpname = "";
+    public List<OrganizationMeasureBill> dataList = new List<OrganizationMeasureBill>();
+    public string organizationName = "";
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -37,6 +33,7 @@ public partial class unitProjectBill : System.Web.UI.Page
             Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "", "<script>alert('您导入的Excel文件不正确，请确认后重试！');</script>");
             return;
         }
+
         string fileName = DateTime.Now.ToString("yyyyMMddhhmmssmmmm") + this.FileUpload1.FileName;
         Session["filename"] = fileName;
         //保存路径
@@ -69,12 +66,9 @@ public partial class unitProjectBill : System.Web.UI.Page
             DataSet ds = new DataSet();
             da.Fill(ds, filePath);
             System.Data.DataTable dt = ds.Tables[0];
-            unitpname = dt.Rows[1][0].ToString();
-            dataList = UnitProjectBill.GetList(dt, true);
-            //Session["unitProjectBillCCTax5"] = dataList[8].ccomplete / (dataList[0].ccomplete + dataList[1].ccomplete + dataList[4].ccomplete + dataList[6].ccomplete + dataList[7].ccomplete);
-            //Session["unitProjectBillCCTaxWU"] = dataList[9].ccomplete / (dataList[0].ccomplete + dataList[1].ccomplete + dataList[4].ccomplete + dataList[5].ccomplete);
-            //Session["unitProjectBillSCTax5"] = dataList[8].ccomplete / (dataList[0].ccomplete + dataList[1].ccomplete + dataList[4].ccomplete + dataList[6].ccomplete + dataList[7].ccomplete);
-            //Session["unitProjectBillSCTaxWU"] = dataList[9].ccomplete / (dataList[0].ccomplete + dataList[1].ccomplete + dataList[4].ccomplete + dataList[5].ccomplete);
+            //Fixed it
+            organizationName = dt.Rows[1][0].ToString();
+            dataList = OrganizationMeasureBill.GetList(dt);
         }
         catch (Exception exc)
         {
@@ -86,7 +80,6 @@ public partial class unitProjectBill : System.Web.UI.Page
             conn.Dispose();
         }
     }
-
 
     private void setdropdownlist(string filePath)
     {
@@ -103,7 +96,7 @@ public partial class unitProjectBill : System.Web.UI.Page
             System.Data.DataTable schemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
             //获取Excel的第一个Sheet名称
             string sheetName = schemaTable.Rows[0]["TABLE_NAME"].ToString().Trim();
-            for (int i = 0; i < schemaTable.Rows.Count; i++)
+            for (int i = 0; i < schemaTable.Rows.Count - 1; i++)
             {
                 this.DropDownList1.Items.Add(new ListItem(schemaTable.Rows[i]["TABLE_NAME"].ToString().Trim(), i.ToString()));
             }
@@ -124,16 +117,4 @@ public partial class unitProjectBill : System.Web.UI.Page
     {
         GetExcelSheet(Session["filepath"].ToString(), Session["filename"].ToString());
     }
-
-    public static string ConvertToChinese(double x)
-    {
-        return ObjectTypeConvertExtension.ConvertToChinese(x);
-    }
-
-    //protected void ConverToChineseFuncBridge(object sender, EventArgs e)
-    //{
-    //    Single number = ConverToChineseParam.Value.C_Single();
-    //    string cn = ConvertToChinese(number);
-    //    ConverToChineseReturn.Value = cn;
-    //}
 }

@@ -4,15 +4,15 @@
 * Create by Senty at 2008-04-12 
 **/
 
-//设置多个表格可编辑
 
-function GetTableUnitProjectBillData(OrganizationName, table) {
+
+function GetTableOrganizationBillData(table) {
     var tableData = new Array();
     for (var i = 0; i < table.rows.length; i++) {
         var row = table.rows[i];
         var rowData = {};
         for (var j = 0; j < row.cells.length; j++) {
-            var key = row.parentNode.rows[0].cells[j].getAttribute("Name");
+            var key = row.cells[j].getAttribute("Name");
             if (key) {
                 var value = row.cells[j].getAttribute("Value");
                 if (!value) {
@@ -20,8 +20,7 @@ function GetTableUnitProjectBillData(OrganizationName, table) {
                 }
                 rowData[key.toString()] = value.toString();
             }
-        }
-        rowData["OrganizationName"] = OrganizationName;
+        }       
         $.ajax({
             async: false,
             type: "POST",
@@ -34,6 +33,7 @@ function GetTableUnitProjectBillData(OrganizationName, table) {
     }
 }
 
+//设置多个表格可编辑
 function EditTables() {
     for (var i = 0; i < arguments.length; i++) {
         SetTableCanEdit(arguments[i]);
@@ -42,10 +42,10 @@ function EditTables() {
 
 //设置表格是可编辑的  
 function SetTableCanEdit(table) {
-//源代码默认设置第一行为表头，不可编辑
-//    for (var i = 1; i < table.rows.length; i++) {
-//        SetRowCanEdit(table.rows[i]);
-//    }
+    //源代码默认设置第一行为表头，不可编辑
+    //    for (var i = 1; i < table.rows.length; i++) {
+    //        SetRowCanEdit(table.rows[i]);
+    //    }
     for (var i = 0; i < table.rows.length; i++) {
         SetRowCanEdit(table.rows[i]);
     }
@@ -176,17 +176,36 @@ function CreateDropDownList(element, value) {
 
 //取消单元格编辑状态  
 function CancelEditCell(element, value, text) {
-    element.setAttribute("Value", value);
+    var valueTmp = value;
+    var isAlert = false;
+    var checkNum = element.getAttribute("checkNum");
     if (text) {
         element.innerHTML = text;
     } else {
-        element.innerHTML = value;
+        if (checkNum == "false") {
+            element.innerHTML = value;
+        } else {
+            if (isNaN(parseFloat(value))) {
+                if (!valueTmp == "") {
+                    isAlert = true;
+                    valueTmp = "";
+                }
+                element.innerHTML = "";
+            } else {
+                element.innerHTML = parseFloat(valueTmp);
+            }
+        }
+        
     }
+    element.setAttribute("Value", valueTmp);
     element.setAttribute("EditState", "false");
-
     //检查是否有公式计算  
     CheckExpression(element.parentNode);
     CheckDataRelation();
+    if (isAlert) {
+        alert("输入值不是数字!!!");
+        ClearChild(element);
+    }
 }
 
 //清空指定对象的所有字节点  
@@ -299,7 +318,7 @@ function CheckDataRelation() {
     var scurent03 = scurentSum;
     var scurentSumAll = scurent01 + scurent02 + scurent03;
     tableRows[9].cells[4].innerHTML = ccurentSumAll;
-    tableRows[9].cells[5].innerHTML = scurentSumAll;    
+    tableRows[9].cells[5].innerHTML = scurentSumAll;
 }
 
 //计算需要运算的字段  

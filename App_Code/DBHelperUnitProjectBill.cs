@@ -5,6 +5,8 @@ using System.Web;
 using System.Data.SqlClient;
 using System.Data;
 using ImportDemo;
+using System.Text.RegularExpressions;
+using System.Text;
 /// <summary>
 /// Summary description for DBHelperUnitProjectBill
 /// </summary>
@@ -41,7 +43,6 @@ public class DBHelperUnitProjectBill
             {
                 conn.Open();
             }
-
             SqlCommand cmd = new SqlCommand(sqlStr, conn);
             runLines = cmd.ExecuteNonQuery();
         }
@@ -55,4 +56,77 @@ public class DBHelperUnitProjectBill
         }
         return runLines;
     }
+
+    public static UnitProjectBill SeletSumData(string projectName) 
+    {
+        string sumNo = "六";
+        string sqlStr = string.Format("SELECT * FROM projectprice p WHERE p.No='{0}' AND p.project like '%{1}%'", sumNo, projectName);
+        SqlConnection conn = new SqlConnection(SqlConn.ConnText);
+        UnitProjectBill bill = new UnitProjectBill();
+        try
+        {
+            if (conn.State == ConnectionState.Broken || conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+            SqlCommand cmd = new SqlCommand(sqlStr, conn);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            bill = new UnitProjectBill(dt.Rows[0], false);
+            
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            conn.Close();            
+        }
+        return bill;
+    }
+
+    public static List<UnitProjectBill> SeletSumDatas()
+    {
+        string sumNo = "六";
+        string sqlStr = string.Format("SELECT * FROM projectprice p WHERE p.No='{0}'", sumNo);
+        SqlConnection conn = new SqlConnection(SqlConn.ConnText);
+        List<UnitProjectBill> bills = new List<UnitProjectBill>();
+        try
+        {
+            if (conn.State == ConnectionState.Broken || conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+            SqlCommand cmd = new SqlCommand(sqlStr, conn);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            bills = UnitProjectBill.GetList(dt, false);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            conn.Close();
+        }
+        return bills;
+    }
+
+    //public static string GetChineseWord(string oriText)
+    //{
+    //    string x = @"[\u4E00-\u9FFF]+";
+    //    MatchCollection Matches = Regex.Matches
+    //    (oriText, x, RegexOptions.IgnoreCase);
+    //    StringBuilder sb = new StringBuilder();
+    //    foreach (Match NextMatch in Matches)
+    //    {
+    //        sb.Append(NextMatch.Value);
+    //    }
+    //    return sb.ToString();
+    //}
 }

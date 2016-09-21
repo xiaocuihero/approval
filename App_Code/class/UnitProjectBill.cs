@@ -138,16 +138,20 @@ namespace ImportDemo
             }
             else
             {
-                //NO = dr["NO"].C_String();
-                //project = dr["project"].C_String();
-                //pcontent = dr["pcontent"].C_String();
-                //totalprice = dr["totalprice"].C_Double();
-                //totalcompletepercent = dr["totalcompletepercent"].C_DoubleByPercent();
-                //ctotalcomplete = dr["ctotalcomplete"].C_Double();
-                //stotalcomplete = dr["stotalcomplete"].C_Double();
-                //ccomplete = dr["ccomplete"].C_Double();
-                //scomplete = dr["scomplete"].C_Double();
-                //period = dr["period"].C_int();
+                NO = dr["NO"].C_String();
+                project = dr["project"].C_String();
+                pcontent = dr["pcontent"].C_String();
+                totalprice = dr["totalprice"].C_Double();
+                totalcompletepercent = dr["totalcompletepercent"].C_DoubleByPercent();
+                ctotalcomplete = dr["ctotalcomplete"].C_Double();
+                stotalcomplete = dr["stotalcomplete"].C_Double();
+                c_build_complete = dr["c_build_complete"].C_Double();
+                c_setup_complete = dr["c_setup_complete"].C_Double();
+                ccomplete = dr["ccomplete"].C_Double();
+                s_build_complete = dr["s_build_complete"].C_Double();
+                s_setup_complete = dr["s_setup_complete"].C_Double();
+                scomplete = dr["scomplete"].C_Double();
+                period = dr["period"].C_int();
             }
         }
 

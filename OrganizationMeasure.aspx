@@ -40,7 +40,7 @@
     </div>
     <div>
         <center>
-            <input type="submit" name="Submit3" value="提交" onclick="GetTableUnitProjectBillData(document.getElementById('unitpname').innerHTML,document.getElementById('tabProduct'));return false;"
+            <input type="submit" name="Submit3" value="提交" onclick="GetTableOrganizationBillData(document.getElementById('tabProduct'));return false;"
                 style="height: 26px; width: 90px; position: relative; left: -100px; top: 20px" />
             <input type="button" name="Submit3" value="打印预览" onclick="preview();" style="height: 26px;
                 width: 90px; position: relative; left: 100px; top: 20px" />
@@ -108,9 +108,9 @@
                 {
                     string normalColor = "#FFFFFF";
                     string errorColor = "#FFFFE0";
-                    Double price3 = dataList[3].price + dataList[4].price + dataList[5].price + dataList[6].price + dataList[7].price + dataList[8].price;
-                    Double total3 = dataList[3].totalcompleteprice + dataList[4].totalcompleteprice + dataList[5].totalcompleteprice +
-                        dataList[6].totalcompleteprice + dataList[7].totalcompleteprice + dataList[8].totalcompleteprice;
+                    //Double price3 = dataList[3].price + dataList[4].price + dataList[5].price + dataList[6].price + dataList[7].price + dataList[8].price;
+                    //Double total3 = dataList[3].totalcompleteprice + dataList[4].totalcompleteprice + dataList[5].totalcompleteprice +
+                    //    dataList[6].totalcompleteprice + dataList[7].totalcompleteprice + dataList[8].totalcompleteprice;
                     Double cc3 = dataList[3].ccompleteprice + dataList[4].ccompleteprice + dataList[5].ccompleteprice +
                         dataList[6].ccompleteprice + dataList[7].ccompleteprice + dataList[8].ccompleteprice;
                     Double sc3 = dataList[3].scompleteprice + dataList[4].scompleteprice + dataList[5].scompleteprice +
@@ -139,35 +139,23 @@
                 <td width="8%" align="center" bgcolor="#FFFFFF" name="quantity">
                     <%=bill.quantity%>
                 </td>
-                <td width="10%" align="center" bgcolor="<%=i == 2 && price3 != bill.price ? errorColor : normalColor %>"
+                <td width="10%" align="center" bgcolor="<%=normalColor %>"
                     name="price">
-                    <%=i != 2 ? (bill.price == 0 ? "" : bill.price.ToString("0")) : (price3 == 0 ? "" : price3.ToString("0"))%>
+                    <%=bill.price == 0 ? "" : bill.price.ToString("0")%>
                 </td>
-                <td width="10%" align="center" bgcolor="<%=i == 2 && total3 != bill.totalcompleteprice ? errorColor : normalColor %>"
-                    name="totalcompleteprice">
-                    <%=i != 2 ? (bill.totalcompleteprice == 0 ? "" : bill.totalcompleteprice.ToString("0")) : (total3 == 0 ? "" : total3.ToString("0"))%>
+                <td width="10%" align="center" bgcolor="<%=normalColor %>" name="totalcompleteprice">
+                    <%=bill.totalcompleteprice == 0 ? "" : bill.totalcompleteprice.ToString("0")%>
                 </td>
-                <td width="10%" align="center" bgcolor="<%=i == 2 && cc3 != bill.ccompleteprice ? errorColor : normalColor %>"
-                    edittype="TextBox" name="ccompleteprice">
-                    <%=i != 2 ? (bill.ccompleteprice == 0 ? "" : bill.ccompleteprice.ToString("0")) : (cc3 == 0 ? "" : cc3.ToString("0"))%>
-                </td>
-                <td width="10%" align="center" bgcolor="<%=i == 2 && sc3 != bill.scompleteprice ? errorColor : normalColor %>"
-                    edittype="TextBox" name="scompleteprice">
-                    <%=i != 2 ? (bill.scompleteprice == 0 ? "" : bill.scompleteprice.ToString("0")) : (sc3 == 0 ? "" : sc3.ToString("0"))%>
-                </td>
-                <td width="20%" align="center" bgcolor="#FFFFFF" edittype="TextBox" name="bak">
-                    <%=bill.bak %>
-                </td>
+                <td width="10%" align="center" bgcolor="<%=i == 2 && cc3 != bill.ccompleteprice ? errorColor : normalColor %>" edittype="<%=i < 3 ? "null" : "TextBox" %>" name="ccompleteprice"><%=i != 2 ? (bill.ccompleteprice == 0 ? "" : bill.ccompleteprice.ToString("0")) : (cc3 == 0 ? "" : cc3.ToString("0"))%></td>
+                <td width="10%" align="center" bgcolor="<%=i == 2 && sc3 != bill.scompleteprice ? errorColor : normalColor %>" edittype="<%=i < 3 ? "null" : "TextBox" %>" name="scompleteprice"><%=i != 2 ? (bill.scompleteprice == 0 ? "" : bill.scompleteprice.ToString("0")) : (sc3 == 0 ? "" : sc3.ToString("0"))%></td>
+                <td width="20%" align="center" bgcolor="#FFFFFF" checkNum="false" edittype="TextBox" name="bak"><%=bill.bak %></td>
             </tr>
             <%
                 }// foreach
             %>
             <%
                 int last = dataList.Count - 1;
-
                 ImportDemo.OrganizationMeasureBill billAll = dataList[last];
-                Double priceAll = dataList[0].price + dataList[1].price + dataList[2].price;
-                Double totalAll = dataList[0].totalcompleteprice + dataList[1].totalcompleteprice + dataList[2].totalcompleteprice;
                 Double ccAll = dataList[0].ccompleteprice + dataList[1].ccompleteprice + dataList[2].ccompleteprice;
                 Double scAll = dataList[0].scompleteprice + dataList[1].scompleteprice + dataList[2].scompleteprice;
             %>
@@ -178,13 +166,13 @@
                 <td width="39%" align="center" bgcolor="#FFFFFF" colspan="5" name="NO">
                     <%=billAll.NO%>
                 </td>
-                <td width="10%" align="center" bgcolor="<%=priceAll == billAll.price ? normalColor : errorColor %>"
+                <td width="10%" align="center" bgcolor="<%=normalColor%>"
                     name="price" expression="sum">
-                    <%=priceAll%>
+                    <%=billAll.price%>
                 </td>
-                <td width="10%" align="center" bgcolor="<%=totalAll == billAll.totalcompleteprice ? normalColor : errorColor %>"
+                <td width="10%" align="center" bgcolor="<%=normalColor%>"
                     name="totalcompleteprice" expression="sum">
-                    <%=totalAll%>
+                    <%=billAll.totalcompleteprice%>
                 </td>
                 <td width="10%" align="center" bgcolor="<%=ccAll == billAll.ccompleteprice ? normalColor : errorColor %>"
                     name="ccompleteprice" expression="sum">
@@ -204,8 +192,6 @@
         </table>
         <br />
         <br />
-        <input type="button" name="Submit" value="新增" onclick="AddRow(document.getElementById('tabProduct'),1)" />
-        <input type="button" name="Submit2" value="删除" onclick="DeleteRow(document.getElementById('tabProduct'),1)" />
     </div>
     </form>
 </body>

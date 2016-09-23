@@ -60,8 +60,9 @@ namespace ImportDemo {
         public static Double C_DoubleByPercent(this object ob)
         {
             Double rs = 0;
+            if (ob == null) { return 0; }
             string strNoP = ob.ToString().Replace("%", "");
-            if (strNoP == "" || ob == null || !Double.TryParse(strNoP, out rs))
+            if (strNoP == "" || !Double.TryParse(strNoP, out rs))
             {
                 return 0;
             }

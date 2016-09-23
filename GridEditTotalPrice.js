@@ -6,9 +6,9 @@
 
 
 
-function GetTableUnitProjectBillData(unitpName, table) {
+function GetTableTotalPriceBillData(table) {
     var tableData = new Array();
-    for (var i = 0; i < table.rows.length; i++) {
+    for (var i = 0; i < table.rows.length - 1; i++) {
         var row = table.rows[i];
         var rowData = {};
         for (var j = 0; j < row.cells.length; j++) {
@@ -21,12 +21,10 @@ function GetTableUnitProjectBillData(unitpName, table) {
                 rowData[key.toString()] = value.toString();
             }
         }
-        rowData["unitName"] = unitpName;
-        console.log(rowData);
         $.ajax({
             async: false,
             type: "POST",
-            url: 'DBBridge/UnitProjectBillDBBridge.ashx',
+            url: 'DBBridge/TotalPriceBillDBBridge.ashx',
             data: rowData,
             success: function (msg) {
 
@@ -35,17 +33,20 @@ function GetTableUnitProjectBillData(unitpName, table) {
     }
 }
 
-//设置多个表格可编辑  
+//设置多个表格可编辑
 function EditTables() {
     for (var i = 0; i < arguments.length; i++) {
         SetTableCanEdit(arguments[i]);
     }
-    CheckDataRelation();
 }
 
 //设置表格是可编辑的  
 function SetTableCanEdit(table) {
-    for (var i = 1; i < table.rows.length; i++) {
+    //源代码默认设置第一行为表头，不可编辑
+    //    for (var i = 1; i < table.rows.length; i++) {
+    //        SetRowCanEdit(table.rows[i]);
+    //    }
+    for (var i = 0; i < table.rows.length; i++) {
         SetRowCanEdit(table.rows[i]);
     }
 }
@@ -106,10 +107,7 @@ function CreateTextBox(element, value) {
         }
         textBox.value = value;
 
-        //        console.log(value);
-
-
-        //设置文本框的失去焦点事件
+        //设置文本框的失去焦点事件  
         textBox.onblur = function () {
             CancelEditCell(this.parentNode, this.value);
         }
@@ -180,18 +178,24 @@ function CreateDropDownList(element, value) {
 function CancelEditCell(element, value, text) {
     var valueTmp = value;
     var isAlert = false;
+    var checkNum = element.getAttribute("checkNum");
     if (text) {
         element.innerHTML = text;
     } else {
-        if (isNaN(parseFloat(value))) {
-            if (!valueTmp == "") {
-                isAlert = true;
-                valueTmp = "";
-            }
-            element.innerHTML = "";
+        if (checkNum == "false") {
+            element.innerHTML = value;
         } else {
-            element.innerHTML = parseFloat(valueTmp);
+            if (isNaN(parseFloat(value))) {
+                if (!valueTmp == "") {
+                    isAlert = true;
+                    valueTmp = "";
+                }
+                element.innerHTML = "";
+            } else {
+                element.innerHTML = parseFloat(valueTmp);
+            }
         }
+
     }
     element.setAttribute("Value", valueTmp);
     element.setAttribute("EditState", "false");
@@ -216,6 +220,7 @@ function AddRow(table, index) {
     table.tBodies[0].appendChild(newRow);
     SetRowCanEdit(newRow);
     return newRow;
+
 }
 
 
@@ -283,6 +288,119 @@ function CheckExpression(row) {
     }
 }
 
+function CheckDataRelation() {
+    var tableRows = document.getElementById("tabProduct").rows;
+    var CCTax5 = GetDouble(document.getElementById("CCTax5").innerHTML);
+    var SCTax5 = GetDouble(document.getElementById("SCTax5").innerHTML);
+    var CCTaxSI = GetDouble(document.getElementById("CCTaxSI").innerHTML);
+    var SCTaxSI = GetDouble(document.getElementById("SCTaxSI").innerHTML);
+
+
+    //(一)
+    var ccomplete001 = GetDouble(tableRows[15].cells[7].innerHTML);
+    var ccomplete002 = GetDouble(tableRows[16].cells[7].innerHTML);
+    var scomplete001 = GetDouble(tableRows[15].cells[8].innerHTML);
+    var scomplete002 = GetDouble(tableRows[16].cells[8].innerHTML);
+    var ccomplete01 = ccomplete001 + ccomplete002;
+    var scomplete01 = scomplete001 + scomplete002;
+    tableRows[14].cells[7].innerHTML = ccomplete01.toFixed(2);
+    tableRows[14].cells[8].innerHTML = scomplete01.toFixed(2);
+
+    //5
+    var ccomplete02 = GetDouble(tableRows[17].cells[7].innerHTML);
+    var scomplete02 = GetDouble(tableRows[17].cells[8].innerHTML);
+    var ccomplete003 = GetDouble(tableRows[19].cells[7].innerHTML);
+    var scomplete003 = GetDouble(tableRows[19].cells[8].innerHTML);
+    var ccomplete004 = GetDouble(tableRows[20].cells[7].innerHTML);
+    var scomplete004 = GetDouble(tableRows[20].cells[8].innerHTML);
+    var ccomplete005 = (ccomplete01 + ccomplete02 + ccomplete003 + ccomplete004) * CCTax5;
+    var scomplete005 = (scomplete01 + scomplete02 + scomplete003 + scomplete004) * SCTax5;
+    tableRows[21].cells[7].innerHTML = ccomplete005.toFixed(2);
+    tableRows[21].cells[8].innerHTML = scomplete005.toFixed(2);
+
+    //(三)
+    var ccomplete03 = ccomplete003 + ccomplete004 + ccomplete005;
+    var scomplete03 = scomplete003 + scomplete004 + scomplete005;
+    tableRows[18].cells[7].innerHTML = ccomplete03.toFixed(2);
+    tableRows[18].cells[8].innerHTML = scomplete03.toFixed(2);
+
+    //(四)
+    var ccomplete04 = (ccomplete01 + ccomplete02 + ccomplete03) * CCTaxSI;
+    var scomplete04 = (scomplete01 + scomplete02 + scomplete03) * SCTaxSI;
+    tableRows[22].cells[7].innerHTML = ccomplete04.toFixed(2);
+    tableRows[22].cells[8].innerHTML = scomplete04.toFixed(2);
+
+    //二
+    var ccomplete2 = ccomplete01 + ccomplete02 + ccomplete03 + ccomplete04;
+    var scomplete2 = scomplete01 + scomplete02 + scomplete03 + scomplete04;
+    tableRows[13].cells[7].innerHTML = ccomplete2.toFixed(2);
+    tableRows[13].cells[8].innerHTML = scomplete2.toFixed(2);
+
+    //all
+    var ccomplete1 = GetDouble(tableRows[0].cells[7].innerHTML);
+    var scomplete1 = GetDouble(tableRows[0].cells[8].innerHTML);
+    var ccompleteAll = ccomplete1 + ccomplete2;
+    var scompleteAll = scomplete1 + scomplete2;
+    tableRows[23].cells[7].innerHTML = ccompleteAll.toFixed(2);
+    tableRows[23].cells[8].innerHTML = scompleteAll.toFixed(2);
+    
+    //大写
+    document.getElementById("ChineseNumber").innerHTML = numtochinese(ccompleteAll.toFixed(2));
+
+    var price2 = GetDouble(tableRows[13].cells[3].innerHTML); //二
+    var price01 = GetDouble(tableRows[14].cells[3].innerHTML); //(一）
+    var price001 = GetDouble(tableRows[15].cells[3].innerHTML); //1
+    var price002 = GetDouble(tableRows[16].cells[3].innerHTML); //2
+    var price02 = GetDouble(tableRows[17].cells[3].innerHTML); //（二）
+    var price03 = GetDouble(tableRows[18].cells[3].innerHTML); //（三）
+    var price003 = GetDouble(tableRows[19].cells[3].innerHTML); //3
+    var price004 = GetDouble(tableRows[20].cells[3].innerHTML); //4
+    var price005 = GetDouble(tableRows[21].cells[3].innerHTML); //5
+    var price04 = GetDouble(tableRows[22].cells[3].innerHTML); //（四）
+    var priceAll = GetDouble(tableRows[23].cells[3].innerHTML); //总
+
+    tableRows[13].cells[6].innerHTML = price2 == 0 ? "0%" : GetPercent(scomplete2 / price2);
+    tableRows[14].cells[6].innerHTML = price01 == 0 ? "0%" : GetPercent(scomplete01 / price01);
+    tableRows[15].cells[6].innerHTML = price001 == 0 ? "0%" : GetPercent(scomplete001 / price001);
+    tableRows[16].cells[6].innerHTML = price002 == 0 ? "0%" : GetPercent(scomplete002 / price002);
+    tableRows[17].cells[6].innerHTML = price02 == 0 ? "0%" : GetPercent(scomplete02 / price02);
+    tableRows[18].cells[6].innerHTML = price03 == 0 ? "0%" : GetPercent(scomplete03 / price03);
+    tableRows[19].cells[6].innerHTML = price003 == 0 ? "0%" : GetPercent(scomplete003 / price003);
+    tableRows[20].cells[6].innerHTML = price004 == 0 ? "0%" : GetPercent(scomplete004 / price004);
+    tableRows[21].cells[6].innerHTML = price005 == 0 ? "0%" : GetPercent(scomplete005 / price005);
+    tableRows[22].cells[6].innerHTML = price04 == 0 ? "0%" : GetPercent(scomplete04 / price04);
+    tableRows[23].cells[6].innerHTML = priceAll == 0 ? "0%" : GetPercent(scompleteAll / priceAll);
+
+}
+
+//function CheckRelationFunc(tLocation, param) {
+//    var tableRows = document.getElementById("tabProduct").rows;
+//    var result = 0.0;
+//    for (var location in param) {
+//        var value = 0.0;
+//        if (isNAN(location["value"])) {
+//            var row = parseInt(location["row"]);
+//            var col = parseInt(location["col"]);
+//            value = GetDouble(tableRows[row].cells[col]);
+//        } else {
+//            value = GetDouble(location["value"]);
+//        }
+//        result = result + value;
+//    }
+//    var trow = parseInt(tLocation["row"]);
+//    var tcol = parseInt(tLocation["col"]);
+//    tableRows[trow].cells[tcol].innerHTML = result;
+//}
+
+function GetDouble(str) {
+    return isNaN(parseFloat(str)) ? 0 : parseFloat(str);
+}
+
+function GetPercent(num) {
+    var roundNm = Math.round(num * 10000) / 100;
+    return roundNm.toString() + "%";
+}
+
 //计算需要运算的字段  
 function Expression(row, expn) {
     var rowData = GetRowData(row);
@@ -295,109 +413,6 @@ function Expression(row, expn) {
         }
     }
     return eval(expn);
-}
-
-function CheckDataRelation() {
-    var tableRows = document.getElementById("tabProduct").rows;
-    if (tableRows.length == 0) {
-        return;
-    }
-    var unitProjectBillCCTax5 = parseFloat(document.getElementById("unitProjectBillCCTax5").innerHTML);
-    var unitProjectBillCCTaxWU = parseFloat(document.getElementById("unitProjectBillCCTaxWU").innerHTML);
-    var unitProjectBillSCTax5 = parseFloat(document.getElementById("unitProjectBillSCTax5").innerHTML);
-    var unitProjectBillSCTaxWU = parseFloat(document.getElementById("unitProjectBillSCTaxWU").innerHTML);
-    //    //二
-    //    var c_build1 = isNaN(parseFloat(tableRows[2].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[2].cells[8].innerHTML);
-    //    var c_build2 = isNaN(parseFloat(tableRows[3].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[3].cells[8].innerHTML);
-    //    var s_build1 = isNaN(parseFloat(tableRows[2].cells[11].innerHTML)) ? 0 : parseFloat(tableRows[2].cells[11].innerHTML);
-    //    var s_build2 = isNaN(parseFloat(tableRows[3].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[3].cells[9].innerHTML);
-
-    //    tableRows[1].cells[8].innerHTML = c_build1 + c_build2;
-    //    tableRows[1].cells[11].innerHTML = s_build1 + s_build2;
-    //    tableRows[1].cells[9].innerHTML = isNaN(parseFloat(tableRows[2].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[2].cells[9].innerHTML);
-    //    tableRows[1].cells[12].innerHTML = isNaN(parseFloat(tableRows[2].cells[12].innerHTML)) ? 0 : parseFloat(tableRows[2].cells[12].innerHTML)
-
-
-
-    //本期完成、本期监理完成_合计 = 建筑工程 + 安装工程
-    for (var i = 0; i < 3; i++) {
-        var c_build = isNaN(parseFloat(tableRows[i].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[i].cells[8].innerHTML);
-        var c_setup = isNaN(parseFloat(tableRows[i].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[i].cells[9].innerHTML);
-        var s_build = isNaN(parseFloat(tableRows[i].cells[11].innerHTML)) ? 0 : parseFloat(tableRows[i].cells[11].innerHTML);
-        var s_setup = isNaN(parseFloat(tableRows[i].cells[12].innerHTML)) ? 0 : parseFloat(tableRows[i].cells[12].innerHTML);
-        tableRows[i].cells[10].innerHTML = c_build + c_setup;
-        tableRows[i].cells[13].innerHTML = s_build + s_setup;
-    }
-
-    //税率5
-    var _ccomplete01 = isNaN(parseFloat(tableRows[0].cells[10].innerHTML)) ? 0 : parseFloat(tableRows[0].cells[10].innerHTML);
-    var _ccomplete02 = isNaN(parseFloat(tableRows[1].cells[10].innerHTML)) ? 0 : parseFloat(tableRows[1].cells[10].innerHTML);
-    var _ccomplete03 = isNaN(parseFloat(tableRows[4].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[4].cells[8].innerHTML);
-    var _ccomplete3 = isNaN(parseFloat(tableRows[6].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[6].cells[8].innerHTML);
-    var _ccomplete4 = isNaN(parseFloat(tableRows[7].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[7].cells[8].innerHTML);
-    var _cresult5 = ((_ccomplete01 + _ccomplete02 + _ccomplete03 + _ccomplete3 + _ccomplete4) * unitProjectBillCCTax5);
-    tableRows[8].cells[8].innerHTML = _cresult5.toFixed(2);
-    var _scomplete01 = isNaN(parseFloat(tableRows[0].cells[13].innerHTML)) ? 0 : parseFloat(tableRows[0].cells[13].innerHTML);
-    var _scomplete02 = isNaN(parseFloat(tableRows[1].cells[13].innerHTML)) ? 0 : parseFloat(tableRows[1].cells[13].innerHTML);
-    var _scomplete03 = isNaN(parseFloat(tableRows[4].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[4].cells[9].innerHTML);
-    var _scomplete3 = isNaN(parseFloat(tableRows[6].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[6].cells[9].innerHTML);
-    var _scomplete4 = isNaN(parseFloat(tableRows[7].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[7].cells[9].innerHTML);
-    var _sresult5 = ((_scomplete01 + _scomplete02 + _scomplete03 + _scomplete3 + _scomplete4) * unitProjectBillSCTax5);
-    tableRows[8].cells[9].innerHTML = _sresult5.toFixed(2);
-
-
-    //四
-    var ccomplete3 = isNaN(parseFloat(tableRows[6].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[6].cells[8].innerHTML);
-    var ccomplete4 = isNaN(parseFloat(tableRows[7].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[7].cells[8].innerHTML);
-    var ccomplete5 = isNaN(parseFloat(tableRows[8].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[8].cells[8].innerHTML);
-    var ccomplete345 = (ccomplete3 + ccomplete4 + ccomplete5).toFixed(2);
-    tableRows[5].cells[8].innerHTML = ccomplete345;
-    var scomplete3 = isNaN(parseFloat(tableRows[6].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[6].cells[9].innerHTML);
-    var scomplete4 = isNaN(parseFloat(tableRows[7].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[7].cells[9].innerHTML);
-    var scomplete5 = isNaN(parseFloat(tableRows[8].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[8].cells[9].innerHTML);
-    var scomplete345 = (scomplete3 + scomplete4 + scomplete5).toFixed(2);
-    tableRows[5].cells[9].innerHTML = scomplete345;
-
-    //五
-    var __ccomplete01 = isNaN(parseFloat(tableRows[0].cells[10].innerHTML)) ? 0 : parseFloat(tableRows[0].cells[10].innerHTML);
-    var __ccomplete02 = isNaN(parseFloat(tableRows[1].cells[10].innerHTML)) ? 0 : parseFloat(tableRows[1].cells[10].innerHTML);
-    var __ccomplete03 = isNaN(parseFloat(tableRows[4].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[4].cells[8].innerHTML);
-    var __ccomplete04 = isNaN(parseFloat(tableRows[5].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[5].cells[8].innerHTML);
-    var __cresult5 = ((__ccomplete01 + __ccomplete02 + __ccomplete03 + __ccomplete04) * unitProjectBillCCTaxWU);
-    tableRows[9].cells[8].innerHTML = __cresult5.toFixed(2);
-    var __scomplete01 = isNaN(parseFloat(tableRows[0].cells[13].innerHTML)) ? 0 : parseFloat(tableRows[0].cells[13].innerHTML);
-    var __scomplete02 = isNaN(parseFloat(tableRows[1].cells[13].innerHTML)) ? 0 : parseFloat(tableRows[1].cells[13].innerHTML);
-    var __scomplete03 = isNaN(parseFloat(tableRows[4].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[4].cells[9].innerHTML);
-    var __scomplete04 = isNaN(parseFloat(tableRows[5].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[5].cells[9].innerHTML);
-    var __sresult5 = ((__scomplete01 + __scomplete02 + __scomplete03 + __scomplete04) * unitProjectBillSCTaxWU);
-    tableRows[9].cells[9].innerHTML = __sresult5.toFixed(2);
-
-    //六
-    var ccomplete01 = isNaN(parseFloat(tableRows[0].cells[10].innerHTML)) ? 0 : parseFloat(tableRows[0].cells[10].innerHTML);
-    var ccomplete02 = isNaN(parseFloat(tableRows[1].cells[10].innerHTML)) ? 0 : parseFloat(tableRows[1].cells[10].innerHTML);
-    var ccomplete03 = isNaN(parseFloat(tableRows[4].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[4].cells[8].innerHTML);
-    var ccomplete04 = isNaN(parseFloat(tableRows[5].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[5].cells[8].innerHTML);
-    var ccomplete05 = isNaN(parseFloat(tableRows[9].cells[8].innerHTML)) ? 0 : parseFloat(tableRows[9].cells[8].innerHTML);
-    var ccomplete12345 = (ccomplete01 + ccomplete02 + ccomplete03 + ccomplete04 + ccomplete05).toFixed(2);
-    var scomplete01 = isNaN(parseFloat(tableRows[0].cells[13].innerHTML)) ? 0 : parseFloat(tableRows[0].cells[13].innerHTML);
-    var scomplete02 = isNaN(parseFloat(tableRows[1].cells[13].innerHTML)) ? 0 : parseFloat(tableRows[1].cells[13].innerHTML);
-    var scomplete03 = isNaN(parseFloat(tableRows[4].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[4].cells[9].innerHTML);
-    var scomplete04 = isNaN(parseFloat(tableRows[5].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[5].cells[9].innerHTML);
-    var scomplete05 = isNaN(parseFloat(tableRows[9].cells[9].innerHTML)) ? 0 : parseFloat(tableRows[9].cells[9].innerHTML);
-    var scomplete12345 = (scomplete01 + scomplete02 + scomplete03 + scomplete04 + scomplete05).toFixed(2);
-    tableRows[10].cells[8].innerHTML = ccomplete12345;
-    tableRows[10].cells[9].innerHTML = scomplete12345;
-
-    //大写合计
-
-    //    document.getElementById("ConverToChineseParam").setAttribute("value", ccomplete12345);
-    //    document.getElementById("ConverToChineseBtn").click();
-    //    var result = document.getElementById("ConverToChineseReturn").getAttribute("value");
-    //    document.getElementById("ChineseNumber").innerHTML = result;
-
-    document.getElementById("ChineseNumber").innerHTML = numtochinese(ccomplete12345);
-
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////  
@@ -479,11 +494,6 @@ function formatNumber(num, pattern) {
     }
     return retstr.replace(/^,+/, '').replace(/\.$/, '');
 }
-
-
-
-
-
 
 /* 
 功能：将货币数字（阿拉伯数字）(小写)转化成中文(大写） 

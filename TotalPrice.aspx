@@ -39,7 +39,7 @@
     </div>
     <div>
         <center>
-            <input type="submit" name="Submit3" value="提交" onclick="GetTableOrganizationBillData(document.getElementById('tabProduct'));return false;"
+            <input type="submit" name="Submit3" value="提交" onclick="GetTableTotalPriceBillData(document.getElementById('tabProduct'));return false;"
                 style="height: 26px; width: 90px; position: relative; left: -100px; top: 20px" />
             <input type="button" name="Submit3" value="打印预览" onclick="preview();" style="height: 26px;
                 width: 90px; position: relative; left: 100px; top: 20px" />
@@ -53,10 +53,10 @@
             <tr>
                 <td width="3%" align="center" bgcolor="#EFEFEF">
                 </td>
-                <td width="4%" align="center" bgcolor="#EFEFEF">
+                <td width="6%" align="center" bgcolor="#EFEFEF">
                     序号
                 </td>
-                <td width="21%" align="center" bgcolor="#EFEFEF">
+                <td width="19%" align="center" bgcolor="#EFEFEF">
                     内容
                 </td>
                 <td width="12%" align="center" bgcolor="#EFEFEF">
@@ -81,26 +81,162 @@
         </table>
         <table width="100%" border="1" cellpadding="0" cellspacing="0" id="tabProduct">
             <%
-                string normalColor = "#FFFFFF";
-                string errorColor = "#FFFFE0";
-                string CanEdit = "TextBox";
-                string CanNotEdit = "null";
-                int[] indexsCanEdit = new int[] { 12, 13, 14, 15, 17, 18 };
-                int[] indexsNeedCheck = new int[] { 0, 11, 12, 16, 19, 20, 21 };
-                for (int i = 0; i < dataList.Count; i++) 
+                
+                if (dataList.Count == 25)
                 {
-                    ImportDemo.TotalPriceBill bill = dataList[i];
-                    string canEdit = indexsCanEdit.Contains(i) ? CanEdit : CanNotEdit;
-                    string bgColor = normalColor;
-                    string a = bill.tpercent.ToString();
-                    if (indexsNeedCheck.Contains(i)) 
+                    string normalColor = "#FFFFFF";
+                    string errorColor = "#FFFFE0";
+                    string CanEdit = "TextBox";
+                    string CanNotEdit = "null";
+                    int[] indexsCanEdit = new int[] { 15, 16, 17, 19, 20 };
+                    int[] indexsNeedCheck = new int[] { 0, 13, 14, 18, 23 };
+
+                    Double ccomplete1 = 0;
+                    Double scomplete1 = 0;
+
+                    Double ccomplete01 = dataList[15].ccomplete + dataList[16].ccomplete; //14
+                    Double scomplete01 = dataList[15].scomplete + dataList[16].scomplete;
+
+                    Double ccomplete03 = dataList[19].ccomplete + dataList[20].ccomplete + dataList[21].ccomplete; //18
+                    Double scomplete03 = dataList[19].scomplete + dataList[20].scomplete + dataList[21].scomplete;
+
+                    Double ccomplete2 = ccomplete01 + dataList[17].ccomplete + ccomplete03 + dataList[22].ccomplete; //13
+                    Double scomplete2 = scomplete01 + dataList[17].scomplete + scomplete03 + dataList[22].ccomplete;
+
+                    // 一
+                    for (int i = 1; i < 13; i++)
                     {
-                        
+                        ImportDemo.TotalPriceBill tbill = dataList[i];
+                        ImportDemo.UnitProjectBill ubill = CheckComplete(tbill);
+                        Double ccompleteTmp = ubill == null ? 0 : ubill.ccomplete;
+                        Double scompleteTmp = ubill == null ? 0 : ubill.scomplete;
+                        ccomplete1 += ccompleteTmp;
+                        scomplete1 += scompleteTmp;
                     }
-                }
+
+                    Double ccompleteAll = ccomplete1 + ccomplete2; //23
+                    Double scompleteAll = scomplete1 + scomplete2;
+
+                    for (int i = 0; i < dataList.Count - 1; i++)
+                    {
+                        ImportDemo.TotalPriceBill bill = dataList[i];
+                        //表格可编辑check
+                        string editable = indexsCanEdit.Contains(i) ? CanEdit : CanNotEdit;
+                        Double ccomplete = bill.ccomplete;
+                        Double scomplete = bill.scomplete;
+
+                        //数据库中单位工程check
+                        if (i > 0 && i < 13)
+                        {
+                            ImportDemo.UnitProjectBill ubill = CheckComplete(bill);
+                            if (ubill != null)
+                            {
+                                ccomplete = ubill.ccomplete;
+                                scomplete = ubill.scomplete;
+                            }
+                            else
+                            {
+                                ccomplete = 0;
+                                scomplete = 0;
+                            }
+                        }
+
+                        if (indexsNeedCheck.Contains(i))
+                        {
+
+                            //需要进行求和check
+                            switch (i)
+                            {
+                                case 0:
+                                    {
+                                        ccomplete = ccomplete1;
+                                        scomplete = scomplete1;
+                                        break;
+                                    }
+                                case 13:
+                                    {
+                                        ccomplete = ccomplete2;
+                                        scomplete = scomplete2;
+                                        break;
+                                    }
+                                case 14:
+                                    {
+                                        ccomplete = ccomplete01;
+                                        scomplete = scomplete01;
+                                        break;
+                                    }
+                                case 18:
+                                    {
+                                        ccomplete = ccomplete03;
+                                        scomplete = scomplete03;
+                                        break;
+                                    }
+                                case 23:
+                                    {
+                                        ccomplete = ccompleteAll;
+                                        scomplete = scompleteAll;
+                                        break;
+                                    }
+                                default: { break; }
+                            }
+                        }
+                        string percentComplete = bill.price == 0 ? "0.00%" : (scomplete / bill.price).ToString("0.00%");
+                        //值对应check，影响颜色
+                        string pBgColor = percentComplete == bill.tpercent.ToString("0.00%").Trim() ? normalColor : errorColor;
+                        string ccBgColor = ccomplete == bill.ccomplete ? normalColor : errorColor;
+                        string scBgColor = scomplete == bill.scomplete ? normalColor : errorColor;
             %>
+            <tr>
+                <td width="3%" align="center" bgcolor="#FFFFFF">
+                    <%=(i+1).ToString()%>
+                </td>
+                <td width="6%" align="center" name="NO" bgcolor="#FFFFFF">
+                    <%=bill.NO %>
+                </td>
+                <td width="19%" align="center" name="tcontent" bgcolor="#FFFFFF">
+                    <%=bill.tcontent %>
+                </td>
+                <td width="12%" align="center" name="price" bgcolor="#FFFFFF">
+                    <%=bill.price %>
+                </td>
+                <td width="12%" align="center" name="totalcompletedquantity" bgcolor="#FFFFFF">
+                    <%=bill.totalcompletedquantity %>
+                </td>
+                <td width="12%" align="center" name="totalcompletepercent" bgcolor="#FFFFFF">
+                    <%=bill.totalcompletepercent.ToString("0.00%") %>
+                </td>
+                <td width="12%" align="center" name="tpercent" bgcolor="<%=pBgColor %>">
+                    <%=percentComplete %>
+                </td>
+                <td width="12%" align="center" name="ccomplete" bgcolor="<%=ccBgColor %>" edittype="<%=editable %>"><%=ccomplete %></td>
+                <td width="12%" align="center" name="scomplete" bgcolor="<%=scBgColor %>" edittype="<%=editable %>"><%=scomplete %></td>
+            </tr>
+            <%} // for
+                    ImportDemo.TotalPriceBill billAll = dataList[dataList.Count - 2];
+                
+            %>
+            <tr>
+                <td colspan="2" width="9%" align="right">
+                    总报价（大写）：
+                </td>
+                <td colspan="5" align="center" width="67%" id="ChineseNumber">
+                </td>
+                <td colspan="2" align="center" width="24%">
+                    元整
+                </td>
+            </tr>
+            <%} // if %>
         </table>
+        <p id="CCTax5" style="display: none;"><%=dataList.Count == 25 ? dataList[21].ccomplete / (dataList[15].ccomplete + dataList[16].ccomplete + dataList[17].ccomplete + dataList[19].ccomplete + dataList[20].ccomplete) : 1%></p>
+        <p id="SCTax5" style="display: none;"><%=dataList.Count == 25 ? dataList[21].scomplete / (dataList[15].scomplete + dataList[16].scomplete + dataList[17].scomplete + dataList[19].scomplete + dataList[20].scomplete) : 1 %></p>
+        <p id="CCTaxSI" style="display: none;"><%=dataList.Count == 25 ? dataList[22].ccomplete / (dataList[15].ccomplete + dataList[16].ccomplete + dataList[17].ccomplete + dataList[19].ccomplete + dataList[20].ccomplete + dataList[21].ccomplete) : 1%></p>
+        <p id="SCTaxSI" style="display: none;"><%=dataList.Count == 25 ? dataList[22].scomplete / (dataList[15].scomplete + dataList[16].scomplete + dataList[17].scomplete + dataList[19].scomplete + dataList[20].scomplete + dataList[21].scomplete) : 1%></p>
     </div>
     </form>
 </body>
+<script type="text/javascript" src="GridEditTotalPrice.js"></script>
+<script type="text/javascript">
+    var tabProduct = document.getElementById("tabProduct");
+    EditTables(tabProduct);
+</script>
 </html>

@@ -66,20 +66,20 @@ namespace ImportDemo
             tcontent = dr[1].C_String();
             price = dr[2].C_Double();
             totalcompletedquantity = dr[3].C_Double();
-            totalcompletepercent = dr[4].C_Double();
-            tpercent = dr[5].C_Double();
+            totalcompletepercent = dr[4].C_DoubleByPercent();
+            tpercent = dr[5].C_DoubleByPercent();
             ccomplete = dr[6].C_Double();
             scomplete = dr[7].C_Double();
         }
 
         public TotalPriceBill(NameValueCollection row)
         {
-            NO = row[""].C_StringTrim();
+            NO = row["NO"].C_StringTrim();
             tcontent = row["tcontent"].C_StringTrim();
             price = row["price"].C_Double();
             totalcompletedquantity = row["totalcompletedquantity"].C_Double();
-            totalcompletepercent = row["totalcompletepercent"].C_Double();
-            tpercent = row["tpercent"].C_Double();
+            totalcompletepercent = row["totalcompletepercent"].C_DoubleByPercent();
+            tpercent = row["tpercent"].C_DoubleByPercent();
             ccomplete = row["ccomplete"].C_Double();
             scomplete = row["scomplete"].C_Double();
             period = 17;
@@ -97,10 +97,10 @@ namespace ImportDemo
             {
                 if (i > rowEndIndex) break;
                 TotalPriceBill bill = new TotalPriceBill(dt.Rows[i]);
-                string total = "";
-                if (System.Text.RegularExpressions.Regex.IsMatch(bill.NO, total)) 
+                string total = "大写";
+                if (System.Text.RegularExpressions.Regex.IsMatch(bill.NO, total) || bill.tcontent == "") 
                 {
-                    rowEndIndex = i + 1;
+                    rowEndIndex = i;
                 }
                 dataList.Add(bill);
             }

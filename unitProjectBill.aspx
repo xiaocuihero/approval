@@ -366,9 +366,6 @@
     </div>
     </form>
 </body>
-<script type="text/javascript">
-    
-</script>
 <script type="text/javascript" src="GridEditUnitProject.js"></script>
 <script type="text/javascript">
     var tabProduct = document.getElementById("tabProduct");
